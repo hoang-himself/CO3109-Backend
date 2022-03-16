@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "rangav.vscode-thunder-client"
+    ],
+    "unwantedRecommendations": [
+        "ms-azuretools.vscode-docker"
+    ]
+}
