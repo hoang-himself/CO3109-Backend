@@ -9,13 +9,24 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      POSTGRES_USER: what-is-love
+      POSTGRES_PASSWORD: baby-dont-hurt-me
+      POSTGRES_DB: no-more
+      POSTGRES_HOST: 127.0.0.1
+      POSTGRES_PORT: 5432
+      SECRET_KEY: 3a^&h4ch#u5=)_g&+mv=*h(!*s7^nzg!19j5=6)i_1f*4d_27m
+      JWT_KEY: $5iu*+0bw^_0(fj$w-r6cv8k=nm%6!tg=r8#u9ssjp*js_o@ev
+      HOST: 0.0.0.0
+      PORT: 3109
+      DATABASE_URL: postgres://what-is-love:baby-dont-hurt-me@127.0.0.1:5432/no-more
 
     services:
       postgres:
         image: postgres:14.2
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: what-is-love
+          POSTGRES_PASSWORD: baby-dont-hurt-me
           POSTGRES_DB: no-more
         ports:
           - 5432:5432

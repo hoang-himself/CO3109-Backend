@@ -1,6 +1,6 @@
 {
     "recommendations": [
-        "rangav.vscode-thunder-client",
+        "github.copilot",
         "seatonjiang.gitmoji-vscode"
     ],
     "unwantedRecommendations": [
