@@ -21,7 +21,6 @@ services:
       - "3109:3109"
     env_file:
       - ../.env
-      # - ../.env.local
     volumes:
       - ..:/workspace:cached
     networks:
@@ -36,7 +35,6 @@ services:
       - "5432:5432"
     env_file:
       - ../.env
-      # - ../.env.local
     volumes:
       - postgres-volume:/var/lib/postgresql/data
     networks:

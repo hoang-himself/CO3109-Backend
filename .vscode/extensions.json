@@ -1,6 +1,7 @@
 {
     "recommendations": [
-        "rangav.vscode-thunder-client"
+        "rangav.vscode-thunder-client",
+        "seatonjiang.gitmoji-vscode"
     ],
     "unwantedRecommendations": [
         "ms-azuretools.vscode-docker"
