@@ -1,9 +1,12 @@
 {
-    "recommendations": [
-        "github.copilot",
-        "seatonjiang.gitmoji-vscode"
-    ],
-    "unwantedRecommendations": [
-        "ms-azuretools.vscode-docker"
-    ]
+  "recommendations": [
+    "eamodio.gitlens",
+    "helixquar.randomeverything",
+    "kejun.devtoys",
+    "mtxr.sqltools",
+    "mtxr.sqltools-driver-pg"
+  ],
+  "unwantedRecommendations": [
+    "ms-azuretools.vscode-docker"
+  ]
 }
