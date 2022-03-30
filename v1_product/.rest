@@ -1,0 +1,14 @@
+@branch={{hostname}}/api/v1/product
+@contentType=application/json
+
+###
+GET {{branch}}/all
+
+###
+GET {{branch}}/popular
+
+###
+GET {{branch}}/search?key=iphone+12
+
+###
+GET {{branch}}/filter?toPrice=10000000

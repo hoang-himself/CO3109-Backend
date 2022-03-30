@@ -1,0 +1,64 @@
+@branch={{hostname}}/api/v1/order
+@contentType=application/json
+
+###
+PUT {{branch}}/order
+Content-Type: {{contentType}}
+
+{
+    "uuid": "e5fb8ff4-9520-5118-8195-290803e57460",
+    "quantity": 69
+}
+
+###
+PUT {{branch}}/order
+Content-Type: {{contentType}}
+
+{
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0eXAiOiJhY2Nlc3MiLCJleHAiOjE2MzkwNTc4MjEsImlhdCI6MTYzOTA1NDIyMSwianRpIjoiYmY2YjNlYWE5NGU0NDU0ZDg4NmE5NmI5NDg3Mjg4NzEiLCJ1dWlkIjoiZTJlNDU2OTEtYjZmYy00OTU2LTgwODAtZTgwOGQwZjVhZWVkIiwiaXNzIjoiUElQX1BJUCJ9.5plmAUmSiE85JKCgdRPpVP7WG8eAAI6n63Vi0QRLntw",
+    "item": [
+    {
+        "uuid": "157d7ee2-26e0-573c-bef5-4681f6ad0fcf",
+        "quantity": 19
+    },
+    {
+        "uuid": "e5fb8ff4-9520-5118-8195-290803e57460",
+        "quantity": 19
+    }
+    ]
+}
+
+###
+PUT {{branch}}/order
+Content-Type: {{contentType}}
+
+{
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0eXAiOiJhY2Nlc3MiLCJleHAiOjE2MzkwNjU5NzgsImlhdCI6MTYzOTA2MjM3OCwianRpIjoiYjkyOTAyMDY0ZGNkNDc2Y2FkZWFmY2IxMzk4NjcxNzAiLCJ1dWlkIjoiZTJlNDU2OTEtYjZmYy00OTU2LTgwODAtZTgwOGQwZjVhZWVkIiwiaXNzIjoiUElQX1BJUCJ9.1U0qRC9bh4ODd5tyBAa06TGB43l1JxDWclZZ6GPMKaI",
+    "uuid": "4c182238-d5b2-593f-aeb7-5a1a1f91c7ee",
+    "quantity": "add"
+}
+
+###
+POST {{branch}}/order
+Content-Type: {{contentType}}
+
+{
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0eXAiOiJhY2Nlc3MiLCJleHAiOjE2MzkwNjU5NzgsImlhdCI6MTYzOTA2MjM3OCwianRpIjoiYjkyOTAyMDY0ZGNkNDc2Y2FkZWFmY2IxMzk4NjcxNzAiLCJ1dWlkIjoiZTJlNDU2OTEtYjZmYy00OTU2LTgwODAtZTgwOGQwZjVhZWVkIiwiaXNzIjoiUElQX1BJUCJ9.1U0qRC9bh4ODd5tyBAa06TGB43l1JxDWclZZ6GPMKaI"
+}
+
+###
+DELETE {{branch}}/order
+Content-Type: {{contentType}}
+
+{
+    "uuid": "157d7ee2-26e0-573c-bef5-4681f6ad0fcf"
+}
+
+
+###
+DELETE {{branch}}/checkout
+Content-Type: {{contentType}}
+
+{
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0eXAiOiJhY2Nlc3MiLCJleHAiOjE2MzkwNjk3NDcsImlhdCI6MTYzOTA2NjE0NywianRpIjoiZTVjZGRjNjM0YjJlNDY3ZmJiMGE2NGViNGUwNjZiZjUiLCJ1dWlkIjoiZTJlNDU2OTEtYjZmYy00OTU2LTgwODAtZTgwOGQwZjVhZWVkIiwiaXNzIjoiUElQX1BJUCJ9.BR9T6gwQWHvuxmGSmuN7hLH0xPCXWFTjxy6EwokPf6U"
+}
