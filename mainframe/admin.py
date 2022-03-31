@@ -16,7 +16,7 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('password', )
         }),
         ('Personal info', {
-            'fields': ('email', 'first_name', 'last_name')
+            'fields': ('email', 'first_name', 'last_name', 'rem_credit')
         }),
         (
             'Permissions', {

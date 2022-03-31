@@ -27,7 +27,6 @@ class Product(TemplateModel):
     name = models.TextField()
     desc = models.TextField()
     image = models.ImageField(upload_to=upload_image, null=True, blank=True)
-    size = models.TextField()
     price = models.IntegerField()
 
     class Meta:
@@ -43,6 +42,7 @@ class CustomUser(AbstractUser):
     username = None
     email = models.EmailField(unique=True)
     phone = models.TextField(unique=True)
+    rem_credit = models.IntegerField(default=3000)
 
     date_joined = models.DateTimeField(
         'date joined', auto_now_add=True, editable=False
@@ -66,6 +66,10 @@ class CustomUser(AbstractUser):
 class ProductHistory(TemplateModel):
     quantity = models.IntegerField()
     time_recorded = models.DateTimeField(auto_now_add=True, editable=False)
+
+    class Meta:
+        verbose_name = 'prod_hist'
+        verbose_name_plural = 'prod_hists'
 
 
 class Order(TemplateModel):
