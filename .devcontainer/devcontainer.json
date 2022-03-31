@@ -27,6 +27,8 @@
     "ms-python.python",
     "ms-python.vscode-pylance",
     "ms-vsliveshare.vsliveshare",
+    "mtxr.sqltools",
+    "mtxr.sqltools-driver-pg",
     "seatonjiang.gitmoji-vscode",
     "streetsidesoftware.code-spell-checker"
   ],

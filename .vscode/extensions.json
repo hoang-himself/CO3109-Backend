@@ -2,9 +2,7 @@
   "recommendations": [
     "eamodio.gitlens",
     "helixquar.randomeverything",
-    "kejun.devtoys",
-    "mtxr.sqltools",
-    "mtxr.sqltools-driver-pg"
+    "kejun.devtoys"
   ],
   "unwantedRecommendations": [
     "ms-azuretools.vscode-docker"
