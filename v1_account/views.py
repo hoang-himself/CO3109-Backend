@@ -25,7 +25,7 @@ class UserSelfSerializer(EnhancedModelSerializer):
         model = CustomUser
         fields = [
             'email', 'first_name',
-            'last_name', 'phone'
+            'last_name', 'phone', 'rem_credit'
         ]
 
 

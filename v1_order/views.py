@@ -36,7 +36,8 @@ class ImplicitOrder(EnhancedModelSerializer):
 
 
 def request_to_user_object(request):
-    token = request.data.get('access_token', None)
+    token_header = request.headers.get('Authorization', None)
+    token = token_header.split(' ')[1]
 
     if not (token):
         raise exceptions.AuthenticationFailed(
