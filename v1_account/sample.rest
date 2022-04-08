@@ -1,0 +1,40 @@
+@branch={{hostname}}/api/v1/account
+@contentType=application/json
+
+###
+GET {{branch}}/all
+
+###
+POST {{branch}}/signup
+Content-Type: {{contentType}}
+
+{
+    "email": "hig@emovaw.za",
+    "first_name": "Hilda",
+    "last_name": "Ramirez",
+    "phone": "41276641",
+    "password": "4d3ig1bf8WWE6C"
+}
+
+### Exception handler
+POST {{branch}}/signup
+Content-Type: {{contentType}}
+
+{"first_name": "561251", "last_name": "512515", "email": "nguyenchinhkhoi@gmail.com", "phone": "41276641", "password": "ytF4d6R65YqRUdb"}
+
+###
+POST {{branch}}/signin
+Content-Type: {{contentType}}
+
+{
+    "email": "hig@emovaw.za",
+    "password": "4d3ig1bf8WWE6C"
+}
+
+###
+GET {{branch}}/me
+Content-Type: {{contentType}}
+Authorization: {{auth_token}}
+
+###
+DELETE {{branch}}/signout

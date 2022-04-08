@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "eamodio.gitlens",
+    "helixquar.randomeverything",
+    "kejun.devtoys"
+  ],
+  "unwantedRecommendations": [
+    "ms-azuretools.vscode-docker"
+  ]
+}

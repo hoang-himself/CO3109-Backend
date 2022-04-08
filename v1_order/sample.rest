@@ -1,0 +1,70 @@
+@branch={{hostname}}/api/v1/order
+@contentType=application/json
+
+###
+PUT {{branch}}/order
+Content-Type: {{contentType}}
+
+{
+    "uuid": "e5fb8ff4-9520-5118-8195-290803e57460",
+    "quantity": 69
+}
+
+###
+PUT {{branch}}/order
+Content-Type: {{contentType}}
+Authorization: {{auth_token}}
+
+{
+    "item": [
+    {
+        "uuid": "157d7ee2-26e0-573c-bef5-4681f6ad0fcf",
+        "quantity": 19
+    },
+    {
+        "uuid": "e5fb8ff4-9520-5118-8195-290803e57460",
+        "quantity": 19
+    }
+    ]
+}
+
+###
+PUT {{branch}}/order
+Content-Type: {{contentType}}
+Authorization: auth_token
+
+{
+    "uuid": "4c182238-d5b2-593f-aeb7-5a1a1f91c7ee",
+    "quantity": "add"
+}
+
+###
+POST {{branch}}/order
+Content-Type: {{contentType}}
+Authorization: {{auth_token}}
+
+###
+DELETE {{branch}}/order
+Content-Type: {{contentType}}
+
+{
+    "uuid": "157d7ee2-26e0-573c-bef5-4681f6ad0fcf"
+}
+
+
+###
+POST {{branch}}/checkout
+Content-Type: {{contentType}}
+Authorization: {{auth_token}}
+
+{
+    "order_id": ""
+}
+
+###
+GET {{branch}}/checkout?machine_id=69
+Content-Type: {{contentType}}
+
+###
+DELETE {{branch}}/checkout?order_id=4
+Content-Type: {{contentType}}
