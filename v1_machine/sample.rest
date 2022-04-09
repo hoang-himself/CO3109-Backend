@@ -1,0 +1,14 @@
+@branch={{hostname}}/api/v1/machine
+
+###
+GET {{branch}}/all
+
+###
+GET {{branch}}/about
+Content-Type: application/json
+X-MACHINE-UUID: uuid d89647bf-ebdb-53c5-ae26-99d5256439c5
+
+###
+GET {{branch}}/order_queue
+Content-Type: application/json
+X-MACHINE-UUID: uuid d89647bf-ebdb-53c5-ae26-99d5256439c5

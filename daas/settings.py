@@ -48,9 +48,9 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
 
     # 1st party
-    # 'mainframe',
+    'mainframe',
     # 'v1_account',
-    # 'v1_machine',
+    'v1_machine',
     # 'v1_prod_hist',
     # 'v1_order',
     # 'v1_product'

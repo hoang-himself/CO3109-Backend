@@ -5,15 +5,15 @@ VALUES (
   ),
   (
     '1a3de312-0360-577e-a316-3de66c157beb',
-    'Dormitory',
+    'Dormitory'
   ),
   (
     'bc1bdab1-cf1c-554d-bcf3-f9ec16d00577',
-    'Gate 1 machine 3',
+    'Gate 1 machine 3'
   ),
   (
     '42020346-f4ab-51bc-b53c-b06791aef99d',
-    'Gate 3 machine 2',
+    'Gate 3 machine 2'
   );
 INSERT INTO "mainframe_customuser"(
     "password",

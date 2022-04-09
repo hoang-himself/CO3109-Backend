@@ -68,12 +68,16 @@ class CustomUser(AbstractUser):
 
 
 class ProductHistory(TemplateModel):
+    item = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     time_recorded = models.DateTimeField(auto_now_add=True, editable=False)
 
     class Meta:
         verbose_name = 'prod_hist'
         verbose_name_plural = 'prod_hists'
+        indexes = [models.Index(fields=[
+            'item',
+        ])]
 
 
 class Order(TemplateModel):
@@ -97,6 +101,7 @@ class Order(TemplateModel):
         related_query_name='machine_query',
         on_delete=models.CASCADE
     )
+    order_id = models.IntegerField()
     quantity = models.IntegerField()
 
     class Meta:
@@ -104,4 +109,12 @@ class Order(TemplateModel):
         verbose_name_plural = 'orders'
         constraints = [
             models.UniqueConstraint(fields=['item', 'user'], name='user_item')
+        ]
+        indexes = [
+            models.Index(fields=[
+                'machine_id',
+            ]),
+            models.Index(fields=[
+                'order_id',
+            ])
         ]
