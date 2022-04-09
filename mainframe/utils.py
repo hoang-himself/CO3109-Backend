@@ -10,15 +10,21 @@ import jwt
 import uuid
 
 
-def request_header_to_object(request, model):
+def header_to_jwt_token(request):
     token_header = request.headers.get('Authorization', None)
+    if (token_header is None):
+        raise exceptions.AuthenticationFailed(
+            {'Authorization': 'This header is required.'}
+        )
     token = token_header.split(' ')[1]
-
-    if not (token):
+    if (token is None):
         raise exceptions.AuthenticationFailed(
             {'access_token': 'This field is required.'}
         )
+    return token
 
+
+def jwt_token_to_object(token, model):
     try:
         payload = jwt.decode(token, settings.JWT_KEY, algorithms=['HS256'])
         if payload.get('typ', None) != 'access':
@@ -26,13 +32,15 @@ def request_header_to_object(request, model):
     except jwt.ExpiredSignatureError:
         raise exceptions.AuthenticationFailed('Access token expired.')
 
-    if (
-        (
-            obj :=
-            get_object_or_None(model, uuid=payload.get('uuid', None))
-        ) is None
-    ):
+    obj = get_object_or_None(model, uuid=payload.get('uuid', None))
+    if (obj is None):
         raise exceptions.NotFound('Not found.')
+    return obj
+
+
+def request_header_to_object(request, model):
+    token = header_to_jwt_token(request)
+    obj = jwt_token_to_object(token, model)
     return obj
 
 
@@ -40,7 +48,9 @@ def convert_json_list(target):
     try:
         return json.loads(target)
     except ValueError:
-        raise exceptions.ParseError({'invalid_list': 'List must be in json format'})
+        raise exceptions.ParseError(
+            {'invalid_list': 'List must be in json format'}
+        )
 
 
 def convert_time(s, format_time='%Y-%m-%d %H:%M'):
