@@ -1,7 +1,8 @@
 from django.urls import (include, path)
 from .views import ping
 
-app_name = 'mainframe'
+# This will change the pattern of reverse paths
+#app_name = 'mainframe'
 
 urlpatterns = [
     path('ping', ping, name='ping'),

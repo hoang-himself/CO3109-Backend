@@ -5,7 +5,7 @@ from rest_framework.test import (APIClient, APITestCase)
 
 class HeartbeatTests(APITestCase):
     def test_main_ping(self):
-        url = reverse('mainframe:ping')
+        url = reverse('ping')
         client = APIClient()
         response = client.get(url)
         serializer = {'detail': 'pong'}
