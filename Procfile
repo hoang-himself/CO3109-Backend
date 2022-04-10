@@ -1,1 +1,1 @@
-web: python manage.py migrate && python manage.py runserver ${DJANGO_HOST:-0.0.0.0}:${DJANGO_PORT:-8000}
+web: python manage.py migrate && python manage.py runserver ${HOST:-0.0.0.0}:${PORT:-8000}
