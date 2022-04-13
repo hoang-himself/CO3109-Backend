@@ -16,7 +16,12 @@ def header_to_jwt_token(request):
         raise exceptions.AuthenticationFailed(
             {'Authorization': 'This header is required.'}
         )
-    token = token_header.split(' ')[1]
+    try:
+        token = token_header.split(' ')[1]
+    except IndexError:
+        raise exceptions.AuthenticationFailed(
+            {'Authorization': 'Invalid token.'}
+        )
     if (token is None):
         raise exceptions.AuthenticationFailed(
             {'access_token': 'This field is required.'}
