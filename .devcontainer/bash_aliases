@@ -1,0 +1,8 @@
+# Django
+alias dj='python manage.py'
+alias djrun='python manage.py runserver ${DJ_HOST:-0.0.0.0}:${DJ_PORT:-8000}'
+alias djmm='python manage.py makemigrations'
+alias djmig='python manage.py migrate'
+alias djsh='python manage.py shell'
+alias djshp='python manage.py shell_plus'
+alias djtest='python manage.py test'
