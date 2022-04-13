@@ -8,10 +8,11 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from mainframe.views import (create_object, request_header_to_object)
 from mainframe.serializers import (
     EnhancedModelSerializer, CustomUserSerializer
 )
+from mainframe.views import create_object
+from mainframe.utils import request_header_to_object
 
 CustomUser = get_user_model()
 
@@ -90,5 +91,8 @@ def sign_in(request):
 
 
 @api_view(['DELETE'])
-def sign_out(_):
+def sign_out(request):
+    user = request_header_to_object(request, CustomUser)
+    if (user is None):
+        raise exceptions.NotFound('User not found.')
     return Response(status=status.HTTP_200_OK, data={'detail': 'ok'})
