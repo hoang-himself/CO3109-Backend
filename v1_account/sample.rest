@@ -32,7 +32,7 @@ Content-Type: {{contentType}}
 }
 
 ###
-GET {{branch}}/me
+GET {{branch}}/about
 Content-Type: {{contentType}}
 Authorization: {{auth_token}}
 
