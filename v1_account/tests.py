@@ -5,9 +5,6 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import (APIClient, APITestCase)
 
-from mainframe.utils import prettyStr
-from mainframe.views import (CREATE_RESPONSE)
-
 CustomUser = get_user_model()
 NUM_USER = 10
 
