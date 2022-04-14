@@ -1,12 +1,32 @@
 from annoying.functions import get_object_or_None
 
-from rest_framework import (exceptions, status)
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import (exceptions, serializers, status)
 
-from mainframe.models import Machine
-from mainframe.serializers import MachineSerializer
-from mainframe.utils import request_header_to_object
+from mainframe.models import (Order, Product, Machine)
+from mainframe.serializers import EnhancedModelSerializer
+
+
+class InternalMachineSerializer(EnhancedModelSerializer):
+    class Meta:
+        model = Machine
+        fields = '__all__'
+
+
+class ProductField(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ('uuid', 'image', 'name', 'price')
+
+
+class ImplicitOrder(EnhancedModelSerializer):
+    machine_uuid = serializers.CharField(source='machine.uuid')
+    item = ProductField()
+
+    class Meta:
+        model = Order
+        fields = ('machine_uuid', 'order_id', 'item', 'quantity')
 
 
 def request_header_to_machine(request):
@@ -26,7 +46,7 @@ def request_header_to_machine(request):
 def get_all(_):
     return Response(
         status=status.HTTP_200_OK,
-        data=MachineSerializer(Machine.objects.all(), many=True).data
+        data=InternalMachineSerializer(Machine.objects.all(), many=True).data
     )
 
 
@@ -34,27 +54,26 @@ def get_all(_):
 def about_self(request):
     machine = request_header_to_machine(request)
     return Response(
-        status=status.HTTP_200_OK, data=MachineSerializer(machine).data
+        status=status.HTTP_200_OK, data=InternalMachineSerializer(machine).data
     )
 
 
-# TODO
 @api_view(['GET'])
 def get_order_queue(request):
+    machine_obj = request_header_to_machine(request)
+    machine_data = InternalMachineSerializer(machine_obj).data
     return Response(
         status=status.HTTP_200_OK,
-        data={
-            'queue':
-                [
-                    {
-                        'uuid': 'blah',
-                        'name': 'Drink 1'
-                    }, {
-                        'uuid': 'bleh',
-                        'name': 'Drink 2'
-                    }
-                ]
-        }
+        data=ImplicitOrder(
+            Order.objects.filter(machine=machine_data.get('id')
+                                ).order_by('order_id'),
+            many=True
+        ).data
     )
-    machine_obj = request_header_to_object(request, Machine)
-    machine = MachineSerializer(machine_obj).data
+
+
+@api_view(['DELETE'])
+def clear_order(request):
+    # TODO After machine successfully dispenses drinks, clear order from table
+    # and add to prod_hist
+    pass

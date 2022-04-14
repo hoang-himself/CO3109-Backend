@@ -128,6 +128,94 @@ VALUES (
     '761262f5-6deb-5aba-9599-01c67cf84d56',
     1,
     '2',
+    (
+      SELECT id
+      FROM "mainframe_machine"
+      WHERE "uuid" = 'd89647bf-ebdb-53c5-ae26-99d5256439c5'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_product"
+      WHERE name = 'Dasani'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_customuser"
+      WHERE email = 'hig@emovaw.za'
+    )
+  ),
+  (
+    '50807864-db73-548e-b703-6a229d2f565f',
+    1,
+    '2',
+    (
+      SELECT id
+      FROM "mainframe_machine"
+      WHERE "uuid" = 'd89647bf-ebdb-53c5-ae26-99d5256439c5'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_product"
+      WHERE name = 'Black Coffee'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_customuser"
+      WHERE email = 'hig@emovaw.za'
+    )
+  ),
+  (
+    '616b29d4-37b6-599a-b870-9c9be185b5a2',
+    2,
+    '2',
+    (
+      SELECT id
+      FROM "mainframe_machine"
+      WHERE "uuid" = 'd89647bf-ebdb-53c5-ae26-99d5256439c5'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_product"
+      WHERE name = 'Sting'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_customuser"
+      WHERE email = 'hig@emovaw.za'
+    )
+  ),
+  (
+    '5d4b141d-ee40-54b1-89f8-203dbfa7b2d9',
+    1,
+    '420',
+    (
+      SELECT id
+      FROM "mainframe_machine"
+      WHERE "uuid" = 'd89647bf-ebdb-53c5-ae26-99d5256439c5'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_product"
+      WHERE name = 'NutriBoost'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_customuser"
+      WHERE email = 'metmir@uwedobi.tr'
+    )
+  );
+INSERT INTO "mainframe_order"(
+    "uuid",
+    "quantity",
+    "order_id",
+    "machine_id",
+    "item_id",
+    "user_id"
+  )
+VALUES (
+    '761262f5-6deb-5aba-9599-01c67cf84d56',
+    1,
+    '2',
     null,
     (
       SELECT id
@@ -154,38 +242,6 @@ VALUES (
       SELECT id
       FROM "mainframe_customuser"
       WHERE email = 'hig@emovaw.za'
-    )
-  ),
-  (
-    '616b29d4-37b6-599a-b870-9c9be185b5a2',
-    2,
-    '2',
-    null,
-    (
-      SELECT id
-      FROM "mainframe_product"
-      WHERE name = 'Sting'
-    ),
-    (
-      SELECT id
-      FROM "mainframe_customuser"
-      WHERE email = 'hig@emovaw.za'
-    )
-  ),
-  (
-    '5d4b141d-ee40-54b1-89f8-203dbfa7b2d9',
-    1,
-    '420',
-    null,
-    (
-      SELECT id
-      FROM "mainframe_product"
-      WHERE name = 'NutriBoost'
-    ),
-    (
-      SELECT id
-      FROM "mainframe_customuser"
-      WHERE email = 'metmir@uwedobi.tr'
     )
   );
 INSERT INTO "mainframe_producthistory" ("uuid", "quantity", "time_recorded")
