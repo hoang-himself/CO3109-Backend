@@ -204,46 +204,6 @@ VALUES (
       WHERE email = 'metmir@uwedobi.tr'
     )
   );
-INSERT INTO "mainframe_order"(
-    "uuid",
-    "quantity",
-    "order_id",
-    "machine_id",
-    "item_id",
-    "user_id"
-  )
-VALUES (
-    '761262f5-6deb-5aba-9599-01c67cf84d56',
-    1,
-    '2',
-    null,
-    (
-      SELECT id
-      FROM "mainframe_product"
-      WHERE name = 'Dasani'
-    ),
-    (
-      SELECT id
-      FROM "mainframe_customuser"
-      WHERE email = 'hig@emovaw.za'
-    )
-  ),
-  (
-    '50807864-db73-548e-b703-6a229d2f565f',
-    1,
-    '2',
-    null,
-    (
-      SELECT id
-      FROM "mainframe_product"
-      WHERE name = 'Black Coffee'
-    ),
-    (
-      SELECT id
-      FROM "mainframe_customuser"
-      WHERE email = 'hig@emovaw.za'
-    )
-  );
 INSERT INTO "mainframe_producthistory" ("uuid", "quantity", "time_recorded")
 VALUES (),
   ();
