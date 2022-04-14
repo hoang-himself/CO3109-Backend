@@ -32,8 +32,6 @@ def search_by_filter(request):
     dic = {}
     for (key, value) in request.GET.items():
         query = key.lower()
-        # if query == 'brand':
-        #     query += '__name__icontains'
         if query == 'fromprice':
             query = 'price__gt'
         elif query == 'toprice':
