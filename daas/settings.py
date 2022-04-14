@@ -51,8 +51,8 @@ INSTALLED_APPS = [
     'mainframe',
     'v1_account',
     'v1_machine',
-    'v1_product'
-    # 'v1_order'
+    'v1_product',
+    'v1_order'
     # 'v1_prod_hist'
 ]
 
