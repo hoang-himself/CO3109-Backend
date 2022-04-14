@@ -5,10 +5,7 @@
 GET {{branch}}/all
 
 ###
-GET {{branch}}/popular
+GET {{branch}}/search?key=cola
 
 ###
-GET {{branch}}/search?key=iphone+12
-
-###
-GET {{branch}}/filter?toPrice=10000000
+GET {{branch}}/filter?fromprice=30&toprice=50
