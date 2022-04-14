@@ -11,7 +11,7 @@
       "hostname": "http://host.docker.internal:3109"
     },
     "production": {
-      "hostname": "https://thaytam.herokuapp.com:443"
+      "hostname": "https://thay-tam.herokuapp.com:443"
     }
   },
   "sqltools.connections": [
