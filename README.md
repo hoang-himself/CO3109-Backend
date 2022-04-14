@@ -1,5 +1,7 @@
 # Deadline as a Service
 
+[![CI](https://github.com/Smithienious/CO3109-Backend/actions/workflows/main.yml/badge.svg)](https://github.com/Smithienious/CO3109-Backend/actions/workflows/main.yml)
+
 We are making a vending machine with micro:bit and a lot of shit this time
 
 ## Getting started
