@@ -31,7 +31,7 @@ INSERT INTO "mainframe_customuser"(
     "date_updated"
   )
 VALUES (
-    'pbkdf2_sha256$260000$fdSBoXLCOb2v7yIK9eIKCD$bWbpj6GaYGiSnmtEYCzm6eYyA9TLmhnHKLBEu1cIoZM=',
+    'pbkdf2_sha256$320000$sGt1oRWD5wh6c6gCnpIOzs$KRbBjBGH8BVNJKvw8uwLXddETf8ad8R2jIuUpyQKCAQ=',
     3000,
     null,
     False,
@@ -46,7 +46,7 @@ VALUES (
     '2021-12-08 08:08:14.987763+00'
   ),
   (
-    'pbkdf2_sha256$320000$9dv7D43Jh7IwSDc9nhKFlk$5LGMNT46U66IPRuAJnDjv9N5/L1O/O6Kpd2uS6spfwE=',
+    'pbkdf2_sha256$320000$tOKJn3HPYY36ymrp4VQdly$Gb9SqwAZ/NusiWPRxZ9nxxKu3wSZej6UzND01P+7lgA=',
     3000,
     null,
     False,
@@ -128,6 +128,94 @@ VALUES (
     '761262f5-6deb-5aba-9599-01c67cf84d56',
     1,
     '2',
+    (
+      SELECT id
+      FROM "mainframe_machine"
+      WHERE "uuid" = 'd89647bf-ebdb-53c5-ae26-99d5256439c5'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_product"
+      WHERE name = 'Dasani'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_customuser"
+      WHERE email = 'hig@emovaw.za'
+    )
+  ),
+  (
+    '50807864-db73-548e-b703-6a229d2f565f',
+    1,
+    '2',
+    (
+      SELECT id
+      FROM "mainframe_machine"
+      WHERE "uuid" = 'd89647bf-ebdb-53c5-ae26-99d5256439c5'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_product"
+      WHERE name = 'Black Coffee'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_customuser"
+      WHERE email = 'hig@emovaw.za'
+    )
+  ),
+  (
+    '616b29d4-37b6-599a-b870-9c9be185b5a2',
+    2,
+    '2',
+    (
+      SELECT id
+      FROM "mainframe_machine"
+      WHERE "uuid" = 'd89647bf-ebdb-53c5-ae26-99d5256439c5'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_product"
+      WHERE name = 'Sting'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_customuser"
+      WHERE email = 'hig@emovaw.za'
+    )
+  ),
+  (
+    '5d4b141d-ee40-54b1-89f8-203dbfa7b2d9',
+    1,
+    '420',
+    (
+      SELECT id
+      FROM "mainframe_machine"
+      WHERE "uuid" = 'd89647bf-ebdb-53c5-ae26-99d5256439c5'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_product"
+      WHERE name = 'NutriBoost'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_customuser"
+      WHERE email = 'metmir@uwedobi.tr'
+    )
+  );
+INSERT INTO "mainframe_order"(
+    "uuid",
+    "quantity",
+    "order_id",
+    "machine_id",
+    "item_id",
+    "user_id"
+  )
+VALUES (
+    '761262f5-6deb-5aba-9599-01c67cf84d56',
+    1,
+    '2',
     null,
     (
       SELECT id
@@ -154,38 +242,6 @@ VALUES (
       SELECT id
       FROM "mainframe_customuser"
       WHERE email = 'hig@emovaw.za'
-    )
-  ),
-  (
-    '616b29d4-37b6-599a-b870-9c9be185b5a2',
-    2,
-    '2',
-    null,
-    (
-      SELECT id
-      FROM "mainframe_product"
-      WHERE name = 'Sting'
-    ),
-    (
-      SELECT id
-      FROM "mainframe_customuser"
-      WHERE email = 'hig@emovaw.za'
-    )
-  ),
-  (
-    '5d4b141d-ee40-54b1-89f8-203dbfa7b2d9',
-    1,
-    '420',
-    null,
-    (
-      SELECT id
-      FROM "mainframe_product"
-      WHERE name = 'NutriBoost'
-    ),
-    (
-      SELECT id
-      FROM "mainframe_customuser"
-      WHERE email = 'metmir@uwedobi.tr'
     )
   );
 INSERT INTO "mainframe_producthistory" ("uuid", "quantity", "time_recorded")

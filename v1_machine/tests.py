@@ -1,4 +1,3 @@
-from urllib import response
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import (APIClient, APITestCase)
@@ -28,7 +27,9 @@ class MetaMachineTests(APITestCase):
         url = reverse('v1_machine:about')
         client = APIClient()
         response = client.get(
-            url,
-            **{'HTTP_X_MACHINE_UUID': 'uuid d89647bf-ebdb-53c5-ae26-99d5256439c5'}
+            url, **{
+                'HTTP_X_MACHINE_UUID':
+                    'uuid d89647bf-ebdb-53c5-ae26-99d5256439c5'
+            }
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)

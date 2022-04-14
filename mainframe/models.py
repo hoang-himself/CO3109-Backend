@@ -93,7 +93,7 @@ class Order(TemplateModel):
         related_query_name='item_query',
         on_delete=models.CASCADE
     )
-    machine_id = models.ForeignKey(
+    machine = models.ForeignKey(
         Machine,
         null=True,
         blank=True,
@@ -112,7 +112,7 @@ class Order(TemplateModel):
         ]
         indexes = [
             models.Index(fields=[
-                'machine_id',
+                'machine',
             ]),
             models.Index(fields=[
                 'order_id',

@@ -13,7 +13,7 @@ Content-Type: {{contentType}}
     "first_name": "Hilda",
     "last_name": "Ramirez",
     "phone": "41276641",
-    "password": "4d3ig1bf8WWE6C"
+    "password": "hig@emovaw.za"
 }
 
 ### Exception handler
@@ -28,7 +28,7 @@ Content-Type: {{contentType}}
 
 {
     "email": "hig@emovaw.za",
-    "password": "4d3ig1bf8WWE6C"
+    "password": "hig@emovaw.za"
 }
 
 ###
