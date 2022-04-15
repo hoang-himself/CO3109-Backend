@@ -54,7 +54,7 @@ def set_item_quantity(request):
 
     if bool(missing_field):
         raise exceptions.ParseError(missing_field)
-    if (new_quantity < 0):
+    if (int(new_quantity) < 0):
         raise exceptions.ParseError(
             {'new_quantity': 'This field cannot be negative'}
         )
@@ -63,7 +63,7 @@ def set_item_quantity(request):
     if order_obj is None:
         raise exceptions.NotFound(['Order item not found'])
 
-    order_obj.update(quantity = new_quantity)
+    order_obj.update(quantity=new_quantity)
     return Response(['ok'])
 
 

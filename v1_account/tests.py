@@ -21,7 +21,7 @@ class TestUser(APITestCase):
                     password=preset_password,
                     first_name=f'Number{i}',
                     last_name='Tester',
-                    phone=f'0969696969{i}',
+                    phone=f'0969696969{i}'
                 ) for i in range(NUM_USER)
             ]
         )
