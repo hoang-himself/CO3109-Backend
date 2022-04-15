@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import (exceptions, serializers, status)
 
 from mainframe.models import (Order, Product, Machine)
-from mainframe.serializers import EnhancedModelSerializer
+from mainframe.serializers import (EnhancedModelSerializer, MachineSerializer)
 
 
 class InternalMachineSerializer(EnhancedModelSerializer):
@@ -46,7 +46,7 @@ def request_header_to_machine(request):
 def get_all(_):
     return Response(
         status=status.HTTP_200_OK,
-        data=InternalMachineSerializer(Machine.objects.all(), many=True).data
+        data=MachineSerializer(Machine.objects.all(), many=True).data
     )
 
 
@@ -54,7 +54,7 @@ def get_all(_):
 def about_self(request):
     machine = request_header_to_machine(request)
     return Response(
-        status=status.HTTP_200_OK, data=InternalMachineSerializer(machine).data
+        status=status.HTTP_200_OK, data=MachineSerializer(machine).data
     )
 
 
