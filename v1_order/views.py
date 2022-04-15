@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import (exceptions, serializers, status)
 
 from mainframe.models import (Order, Product)
-from mainframe.serializers import EnhancedModelSerializer
+from mainframe.serializers import EnhancedModelSerializer, OrderSerializer
 
 CustomUser = get_user_model()
 
@@ -44,8 +44,27 @@ def view_order(request):
 
 @api_view(['PUT'])
 def set_item_quantity(request):
-    # TODO Requires order_id, item uuid, quantity
-    pass
+    missing_field = {}
+    if (order_id := request.data.get('order_id', None)) is None:
+        missing_field.update({'order_id': 'This field is required.'})
+    if (item_uuid := request.data.get('item_uuid', None)) is None:
+        missing_field.update({'item_uuid': 'This field is required.'})
+    if (new_quantity := request.data.get('new_quantity', None)) is None:
+        missing_field.update({'new_quantity': 'This field is required.'})
+
+    if bool(missing_field):
+        raise exceptions.ParseError(missing_field)
+    if (new_quantity < 0):
+        raise exceptions.ParseError(
+            {'new_quantity': 'This field cannot be negative'}
+        )
+
+    order_obj = Order.objects.filter(order_id=order_id, item__uuid=item_uuid)
+    if order_obj is None:
+        raise exceptions.NotFound(['Order item not found'])
+
+    order_obj.update(quantity = new_quantity)
+    return Response(['ok'])
 
 
 @api_view(['DELETE'])

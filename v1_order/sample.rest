@@ -3,3 +3,14 @@
 
 ###
 GET {{branch}}/view_order?order_id=2
+Content-Type: {{contentType}}
+
+###
+PUT {{branch}}/item_quantity
+Content-Type: {{contentType}}
+
+{
+    "order_id": 2,
+    "item_uuid": "e5fb8ff4-9520-5118-8195-290803e57460",
+    "new_quantity": 269
+}
