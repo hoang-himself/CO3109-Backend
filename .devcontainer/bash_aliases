@@ -1,10 +1,11 @@
 # Advanced Aliases.
-alias l='ls -lFh --group-directories-first'     #size,show type,human readable
-alias la='ls -lAFh --group-directories-first'   #long list,show almost all,show type,human readable
-alias lr='ls -tRFh --group-directories-first'   #sorted by date,recursive,show type,human readable
-alias lt='ls -ltFh --group-directories-first'   #long list,sorted by date,show type,human readable
-alias ll='ls -l --group-directories-first'      #long list
-alias ldot='ls -ld .* --group-directories-first'
+alias ls='ls --color=auto --group-directories-first -v'
+alias l='ls -lFh'
+alias la='ls -lAFh'
+alias lr='ls -tRFh'
+alias lt='ls -ltFh'
+alias ll='ls -l'
+alias ldot='ls -ld .*'
 
 # Git
 
