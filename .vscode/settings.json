@@ -1,9 +1,7 @@
 {
   "python.formatting.provider": "yapf",
   "rest-client.environmentVariables": {
-    "$shared": {
-      "auth_token": "access_token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0eXAiOiJhY2Nlc3MiLCJleHAiOjE2NDg2OTg3ODYsImlhdCI6MTY0ODY5NTE4NiwianRpIjoiODE3NGY5YWMyOTJkNDAxNGE3ODUwMjkyYmEyNzY2ZjEiLCJ1dWlkIjoiZmZmODJhZmQtMjhjZS00MjU1LWE3NzgtOGZhZThkZmJmYWVlIiwiaXNzIjoiREFBUyJ9._7SSjNRYiPSC8zQzlC2ZaUK69SsOrEsBJGkW_hK45lA"
-    },
+    "$shared": {},
     "devcontainer": {
       "hostname": "http://localhost:3109"
     },
@@ -13,18 +11,5 @@
     "production": {
       "hostname": "https://thay-tam.herokuapp.com:443"
     }
-  },
-  "sqltools.connections": [
-    {
-      "previewLimit": 50,
-      "server": "postgres",
-      "port": 5432,
-      "driver": "PostgreSQL",
-      "name": "devcontainer",
-      "connectString": "postgres://what-is-love:baby-dont-hurt-me@postgres:5432/no-more",
-      "database": "no-more",
-      "username": "what-is-love",
-      "password": "baby-dont-hurt-me"
-    }
-  ]
+  }
 }

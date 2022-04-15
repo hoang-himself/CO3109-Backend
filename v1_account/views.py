@@ -95,4 +95,4 @@ def sign_out(request):
     user = request_header_to_object(request, CustomUser)
     if (user is None):
         raise exceptions.NotFound('User not found.')
-    return Response(status=status.HTTP_200_OK, data={'detail': 'ok'})
+    return Response(status=status.HTTP_200_OK, data=['ok'])

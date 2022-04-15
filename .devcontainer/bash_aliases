@@ -1,6 +1,143 @@
+# Advanced Aliases.
+alias ls='ls --color=auto --group-directories-first -v'
+alias l='ls -lFh'
+alias la='ls -lAFh'
+alias lr='ls -tRFh'
+alias lt='ls -ltFh'
+alias ll='ls -l'
+alias ldot='ls -ld .*'
+
+# Git
+
+# Outputs the name of the current branch
+# Usage example: git pull origin $(git_current_branch)
+# Using '--quiet' with 'symbolic-ref' will not cause a fatal error (128) if
+# it's not a symbolic ref, but in a Git repo.
+function git_current_branch() {
+  git branch --show-current
+}
+
+# Check if main exists and use instead of master
+function git_main_branch() {
+  command git rev-parse --git-dir &>/dev/null || return
+  local ref
+  for ref in refs/{heads,remotes/{origin,upstream}}/{main,trunk}; do
+    if command git show-ref -q --verify $ref; then
+      echo ${ref:t}
+      return
+    fi
+  done
+  echo master
+}
+
+# Check for develop and similarly named branches
+function git_develop_branch() {
+  command git rev-parse --git-dir &>/dev/null || return
+  local branch
+  for branch in dev devel development; do
+    if command git show-ref -q --verify refs/heads/$branch; then
+      echo $branch
+      return
+    fi
+  done
+  echo develop
+}
+
+alias g='git'
+
+alias ga='git add'
+alias gaa='git add --all'
+
+alias gb='git branch'
+alias gbd='git branch -d'
+alias gbD='git branch -D'
+
+alias gc!='git commit -v --amend'
+alias gcn!='git commit -v --no-edit --amend'
+alias gcan!='git commit -v -a --no-edit --amend'
+alias gcf='git config --list'
+
+alias gpristine='git reset --hard && git clean -dffx'
+alias gcm='git checkout $(git_main_branch)'
+alias gcd='git checkout $(git_develop_branch)'
+alias gcmsg='git commit -m'
+alias gco='git checkout'
+alias gcor='git checkout --recurse-submodules'
+
+alias gf='git fetch'
+alias gfa='git fetch --all --prune --jobs=10'
+alias gfo='git fetch origin'
+
+alias ggpull='git pull origin "$(git_current_branch)"'
+alias ggpush='git push origin "$(git_current_branch)"'
+
+alias ggsup='git branch --set-upstream-to=origin/$(git_current_branch)'
+alias gpsup='git push --set-upstream origin $(git_current_branch)'
+
+alias gl='git pull'
+
+alias gm='git merge'
+alias gmom='git merge origin/$(git_main_branch)'
+alias gmum='git merge upstream/$(git_main_branch)'
+alias gma='git merge --abort'
+
+alias gp='git push'
+alias gpf='git push --force-with-lease'
+alias gpf!='git push --force'
+
+alias grb='git rebase'
+alias grba='git rebase --abort'
+alias grbc='git rebase --continue'
+alias grbi='git rebase -i'
+
+alias grt='cd "$(git rev-parse --show-toplevel || echo .)"'
+
+alias gsb='git status -sb'
+alias gsi='git submodule init'
+alias gss='git status -s'
+alias gst='git status'
+
+alias gsta='git stash push'
+alias gstaa='git stash apply'
+alias gstc='git stash clear'
+alias gstd='git stash drop'
+alias gstl='git stash list'
+alias gstp='git stash pop'
+alias gsts='git stash show --text'
+alias gstu='gsta --include-untracked'
+alias gstall='git stash --all'
+alias gsu='git submodule update'
+alias gsw='git switch'
+alias gswc='git switch -c'
+alias gswm='git switch $(git_main_branch)'
+alias gswd='git switch $(git_develop_branch)'
+
+alias gts='git tag -s'
+alias gtv='git tag | sort -V'
+alias gtl='git tag --sort=-v:refname -n -l'
+
+alias gup='git pull --rebase'
+alias gupv='git pull --rebase -v'
+alias gupa='git pull --rebase --autostash'
+alias gupav='git pull --rebase --autostash -v'
+
+function grename() {
+  if [[ -z "$1" || -z "$2" ]]; then
+    echo "Usage: $0 old_branch new_branch"
+    return 1
+  fi
+
+  # Rename branch locally
+  git branch -m "$1" "$2"
+  # Rename branch in origin remote
+  if git push origin :"$1"; then
+    git push --set-upstream origin "$2"
+  fi
+}
+
 # Django
 alias dj='python manage.py'
-alias djrun='python manage.py runserver ${HOST:-0.0.0.0}:${PORT:-3109}'
+alias djrun='python manage.py runserver ${HOST:-0.0.0.0}:${PORT:-8000}'
 alias djmm='python manage.py makemigrations'
 alias djmig='python manage.py migrate'
 alias djsh='python manage.py shell'

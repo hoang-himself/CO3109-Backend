@@ -49,8 +49,7 @@ def edit_object(model, **kwargs):
     except KeyError:
         raise KeyError('Payload cannot be empty')
     Serializer = SERIALIZERS[model]
-    uuid = uuid[0] if isinstance(
-        uuid := data.pop('uuid', None), list) else uuid
+    uuid = uuid[0] if isinstance(uuid := data.pop('uuid', None), list) else uuid
     instance = get_by_uuid(model, uuid)
     serializer = Serializer(instance=instance, data=data)
     if serializer.is_valid():
@@ -94,4 +93,4 @@ def delete_object(model, **kwargs):
 @api_view(['POST', 'GET', 'PATCH', 'DELETE'])
 @permission_classes([AllowAny])
 def ping(_):
-    return Response(data={'detail': 'pong'}, status=status.HTTP_200_OK)
+    return Response(data=['pong'], status=status.HTTP_200_OK)
