@@ -1,8 +1,8 @@
 from annoying.functions import get_object_or_None
 
-from rest_framework.decorators import api_view
+from rest_framework.decorators import (api_view, permission_classes)
 from rest_framework.response import Response
-from rest_framework import (exceptions, serializers, status)
+from rest_framework import (exceptions, serializers, permissions, status)
 
 from mainframe.models import (Order, Product, Machine)
 from mainframe.serializers import (EnhancedModelSerializer, MachineSerializer)
@@ -43,14 +43,7 @@ def request_header_to_machine(request):
 
 
 @api_view(['GET'])
-def get_all(_):
-    return Response(
-        status=status.HTTP_200_OK,
-        data=MachineSerializer(Machine.objects.all(), many=True).data
-    )
-
-
-@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
 def about_self(request):
     machine = request_header_to_machine(request)
     return Response(
@@ -59,6 +52,7 @@ def about_self(request):
 
 
 @api_view(['GET'])
+@permission_classes([permissions.AllowAny])
 def get_order_queue(request):
     machine_obj = request_header_to_machine(request)
     machine_data = InternalMachineSerializer(machine_obj).data
@@ -73,6 +67,7 @@ def get_order_queue(request):
 
 
 @api_view(['DELETE'])
+@permission_classes([permissions.AllowAny])
 def clear_order(request):
     # TODO After machine successfully dispenses drinks, clear order from table
     # and add to prod_hist
