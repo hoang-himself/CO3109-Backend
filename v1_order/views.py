@@ -31,6 +31,12 @@ def add_item(request):
 
 
 @api_view(['GET'])
+def get_self_orders(request):
+    # TODO Get all orders of account
+    pass
+
+
+@api_view(['GET'])
 def view_order(request):
     order_id = request.GET.get('order_id', None)
     if order_id is None:

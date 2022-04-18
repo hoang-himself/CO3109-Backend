@@ -89,3 +89,9 @@ def sign_out(request):
     if (user is None):
         raise exceptions.NotFound('User not found.')
     return Response(status=status.HTTP_200_OK, data=['ok'])
+
+@api_view(['PUT'])
+@permission_classes([permissions.AllowAny])
+def reset_credit(request):
+    # TODO Reset credit for all user with optional credit amount
+    pass
