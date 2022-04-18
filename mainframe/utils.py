@@ -24,7 +24,7 @@ def header_to_jwt_token(request):
         )
     if (token is None):
         raise exceptions.AuthenticationFailed(
-            {'access_token': 'This field is required.'}
+            {'JWT': 'This field is required.'}
         )
     return token
 

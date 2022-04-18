@@ -3,14 +3,12 @@ from annoying.functions import get_object_or_None
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import check_password
 
-from rest_framework import (exceptions, status)
-from rest_framework.decorators import api_view
+from rest_framework import (exceptions, permissions, status)
+from rest_framework.decorators import (api_view, permission_classes)
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from mainframe.serializers import (
-    EnhancedModelSerializer, CustomUserSerializer
-)
+from mainframe.serializers import EnhancedModelSerializer
 from mainframe.views import create_object
 from mainframe.utils import request_header_to_object
 
@@ -36,6 +34,7 @@ def about_self(request):
 
 
 @api_view(['POST'])
+@permission_classes([permissions.AllowAny])
 def sign_up(request):
     norm_data = {}
     for key, value in request.data.items():
@@ -43,14 +42,8 @@ def sign_up(request):
     return create_object(CustomUser, data=norm_data)
 
 
-@api_view(['GET'])
-def get_all(_):
-    return Response(
-        CustomUserSerializer(CustomUser.objects.all(), many=True).data
-    )
-
-
 @api_view(['POST'])
+@permission_classes([permissions.AllowAny])
 def sign_in(request):
     valid = True
     errors = {}

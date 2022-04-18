@@ -1,5 +1,6 @@
 @branch={{hostname}}/api/v1/account
 @contentType=application/json
+@authToken=JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0eXAiOiJhY2Nlc3MiLCJleHAiOjE2NTAyNDU5ODgsImlhdCI6MTY1MDI0MjM4OCwianRpIjoiYzFmMjcxMGZlZTFkNDFkNmI0NjdiMDM4ZDdmZGQ2MGMiLCJ1dWlkIjoiYjAzNDMzODQtMDE1Mi00NjcxLWE3ZDYtYzIxMjJhNjVlYWIxIiwiaXNzIjoiREFBUyJ9.87WJbdnHNG3YycIahpQ0Cnp4AXc9086qOZpwAeqXBUM
 
 ###
 GET {{branch}}/all
@@ -34,7 +35,7 @@ Content-Type: {{contentType}}
 ###
 GET {{branch}}/about
 Content-Type: {{contentType}}
-Authorization: {{auth_token}}
+Authorization: {{authToken}}
 
 ###
 DELETE {{branch}}/signout

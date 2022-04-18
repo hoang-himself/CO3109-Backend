@@ -10,7 +10,7 @@ NUM_USER = 10
 
 
 class TestUser(APITestCase):
-    jwt_token = ''
+    header = dict()
 
     def setUp(self):
         preset_password = make_password('iamtester')
@@ -26,20 +26,13 @@ class TestUser(APITestCase):
             ]
         )
 
-        # test_sign_in
         url = reverse('v1_account:sign_in')
         client = APIClient()
         data = {'email': 'tester0@localhost.com', 'password': 'iamtester'}
         response = client.post(url, data=data)
         token = response.data.get('access_token', None)
         self.assertIsNotNone(token)
-        self.jwt_token = f'access_token {token}'
-
-    def test_get_all(self):
-        url = reverse('v1_account:all')
-        client = APIClient()
-        response = client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.header = {'HTTP_AUTHORIZATION': f'JWT {token}'}
 
     def test_sign_up(self):
         url = reverse('v1_account:sign_up')
@@ -57,11 +50,11 @@ class TestUser(APITestCase):
     def test_get_one(self):
         url = reverse('v1_account:about')
         client = APIClient()
-        response = client.get(url, **{'HTTP_AUTHORIZATION': self.jwt_token})
+        response = client.get(url, **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_sign_out(self):
         url = reverse('v1_account:sign_out')
         client = APIClient()
-        response = client.delete(url, **{'HTTP_AUTHORIZATION': self.jwt_token})
+        response = client.delete(url, **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)

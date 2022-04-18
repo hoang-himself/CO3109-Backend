@@ -9,6 +9,8 @@ NUM_MACHINE = 10
 
 
 class OrderTests(APITestCase):
+    header = dict()
+
     def setUp(self):
         user = CustomUser.objects.create(
             email=f'tester@localhost.com',
@@ -29,11 +31,18 @@ class OrderTests(APITestCase):
         Order.objects.create(
             user=user, item=item, machine=machine, order_id=69, quantity=420
         )
+        url = reverse('v1_account:sign_in')
+        client = APIClient()
+        data = {'email': 'tester@localhost.com', 'password': 'iamtester'}
+        response = client.post(url, data=data)
+        token = response.data.get('access_token', None)
+        self.assertIsNotNone(token)
+        self.header = {'HTTP_AUTHORIZATION': f'JWT {token}'}
 
     def test_view_order(self):
         url = reverse('v1_order:view') + '?order_id=69'
         client = APIClient()
-        response = client.get(url)
+        response = client.get(url, **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_set_quantity(self):
@@ -44,6 +53,6 @@ class OrderTests(APITestCase):
                 'order_id': 69,
                 'item_uuid': '3964ff86-161f-4bcf-a211-0f2dd5f91812',
                 'new_quantity': 4
-            }
+            }, **self.header
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
