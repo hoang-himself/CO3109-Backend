@@ -1,6 +1,6 @@
 @branch={{hostname}}/api/v1/order
 @contentType=application/json
-@authToken=JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0eXAiOiJhY2Nlc3MiLCJleHAiOjE2NTAyNDU5ODgsImlhdCI6MTY1MDI0MjM4OCwianRpIjoiYzFmMjcxMGZlZTFkNDFkNmI0NjdiMDM4ZDdmZGQ2MGMiLCJ1dWlkIjoiYjAzNDMzODQtMDE1Mi00NjcxLWE3ZDYtYzIxMjJhNjVlYWIxIiwiaXNzIjoiREFBUyJ9.87WJbdnHNG3YycIahpQ0Cnp4AXc9086qOZpwAeqXBUM
+@authToken=JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0eXAiOiJhY2Nlc3MiLCJleHAiOjE2NTAzMDcwNzEsImlhdCI6MTY1MDMwMzQ3MSwianRpIjoiYmIxY2JiYTBkNTU4NDJkMmE3OTY4MmQyYTFlYmVmMmQiLCJ1dWlkIjoiYjAzNDMzODQtMDE1Mi00NjcxLWE3ZDYtYzIxMjJhNjVlYWIxIiwiaXNzIjoiREFBUyJ9.7bocD2zMWk9q_uPzNnnP-nEvlGonQSDD8F9gXbCKorg
 
 ###
 GET {{branch}}/view_order?order_id=2
@@ -16,4 +16,14 @@ Authorization: {{authToken}}
     "order_id": 2,
     "item_uuid": "e5fb8ff4-9520-5118-8195-290803e57460",
     "new_quantity": 269
+}
+
+###
+PUT {{branch}}/checkout
+Content-Type: {{contentType}}
+Authorization: {{authToken}}
+
+{
+    "order_id": 2,
+    "machine_uuid": "d89647bf-ebdb-53c5-ae26-99d5256439c5"
 }

@@ -27,7 +27,10 @@ class OrderTests(APITestCase):
             unit='335mL',
             desc=''
         )
-        machine = Machine.objects.create(name='Ground floor of A5')
+        machine = Machine.objects.create(
+            uuid='7ba89104-9712-4654-b1fd-13afaa182c2b',
+            name='Ground floor of A5'
+        )
         Order.objects.create(
             user=user, item=item, machine=machine, order_id=69, quantity=420
         )
@@ -53,6 +56,17 @@ class OrderTests(APITestCase):
                 'order_id': 69,
                 'item_uuid': '3964ff86-161f-4bcf-a211-0f2dd5f91812',
                 'new_quantity': 4
+            }, **self.header
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_set_machine(self):
+        url = reverse('v1_order:checkout')
+        client = APIClient()
+        response = client.put(
+            url, {
+                'order_id': 69,
+                'machine_uuid': '7ba89104-9712-4654-b1fd-13afaa182c2b'
             }, **self.header
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)

@@ -10,5 +10,5 @@ urlpatterns = [
     path('view_order', view_order, name='view'),
     path('item_quantity', set_item_quantity, name='item_quantity'),
     path('delete_order', delete_order, name='delete'),
-    path('checkout', checkout_order, name='order_checkout')
+    path('checkout', checkout_order, name='checkout')
 ]
