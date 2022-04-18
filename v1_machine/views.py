@@ -71,4 +71,4 @@ def get_order_queue(request):
 def clear_order(request):
     # TODO After machine successfully dispenses drinks, clear order from table
     # and add to prod_hist
-    pass
+    return Response(status=status.HTTP_200_OK, data=['ok'])
