@@ -4,8 +4,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import (exceptions, serializers, status)
 
-from mainframe.models import (Order, Product)
-from mainframe.serializers import EnhancedModelSerializer, OrderSerializer
+from mainframe.models import (Machine, Order, Product)
+from mainframe.serializers import EnhancedModelSerializer
 
 CustomUser = get_user_model()
 
@@ -21,7 +21,7 @@ class ImplicitOrder(EnhancedModelSerializer):
 
     class Meta:
         model = Order
-        fields = ('order_id', 'item', 'quantity')
+        fields = ('order_id', 'item', 'quantity', 'machine')
 
 
 @api_view(['POST'])
@@ -73,7 +73,24 @@ def delete_order(request):
     pass
 
 
-@api_view(['POST'])
+@api_view(['PUT'])
 def checkout_order(request):
     # TODO Assign machine_id to known order_id
-    pass
+    missing_field = {}
+    if (order_id := request.data.get('order_id', None)) is None:
+        missing_field.update({'order_id': 'This field is required.'})
+    if (machine_uuid := request.data.get('machine_uuid', None)) is None:
+        missing_field.update({'machine_uuid': 'This field is required.'})
+
+    if bool(missing_field):
+        raise exceptions.ParseError(missing_field)
+
+    order_obj = Order.objects.filter(order_id=order_id)
+    machine_obj = Machine.objects.get(uuid=machine_uuid)
+    if order_obj is None:
+        raise exceptions.NotFound(['Order item not found'])
+    if machine_obj is None:
+        raise exceptions.NotFound(['Machine not found'])
+
+    order_obj.update(machine=machine_obj)
+    return Response(['ok'])
