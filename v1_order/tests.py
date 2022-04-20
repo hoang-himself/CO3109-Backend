@@ -57,30 +57,29 @@ class OrderTests(APITestCase):
     def test_set_quantity(self):
         url = reverse('v1_order:item_quantity')
         client = APIClient()
-        response = client.put(
-            url, {
-                'order_id': 69,
-                'item_uuid': '3964ff86-161f-4bcf-a211-0f2dd5f91812',
-                'new_quantity': 4
-            }, **self.header
-        )
+        data = {
+            'order_id': 69,
+            'item_uuid': '3964ff86-161f-4bcf-a211-0f2dd5f91812',
+            'new_quantity': 4
+        }
+        response = client.put(url, data, **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_delete_order(self):
         url = reverse('v1_order:delete')
         client = APIClient()
-        response = client.delete(url, {
+        data = {
             'order_id': 69,
-        }, **self.header)
+        }
+        response = client.delete(url, data, **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_set_machine(self):
         url = reverse('v1_order:checkout')
         client = APIClient()
-        response = client.put(
-            url, {
-                'order_id': 69,
-                'machine_uuid': '7ba89104-9712-4654-b1fd-13afaa182c2b'
-            }, **self.header
-        )
+        data = {
+            'order_id': 69,
+            'machine_uuid': '7ba89104-9712-4654-b1fd-13afaa182c2b'
+        }
+        response = client.put(url, data, **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
