@@ -101,7 +101,7 @@ class Order(TemplateModel):
         related_query_name='machine_query',
         on_delete=models.CASCADE
     )
-    order_id = models.IntegerField()
+    order_uuid = models.UUIDField()
     quantity = models.IntegerField()
 
     class Meta:
@@ -115,6 +115,6 @@ class Order(TemplateModel):
                 'machine',
             ]),
             models.Index(fields=[
-                'order_id',
+                'order_uuid',
             ])
         ]

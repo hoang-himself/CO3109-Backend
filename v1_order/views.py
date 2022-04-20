@@ -20,7 +20,7 @@ class ProductField(serializers.ModelSerializer):
 class ImplicitOrder(EnhancedModelSerializer):
     class Meta:
         model = Order
-        fields = ('order_id', 'machine')
+        fields = ('order_uuid', 'machine')
 
 
 class ExplicitOrder(EnhancedModelSerializer):
@@ -28,12 +28,12 @@ class ExplicitOrder(EnhancedModelSerializer):
 
     class Meta:
         model = Order
-        fields = ('order_id', 'item', 'quantity', 'machine')
+        fields = ('order_uuid', 'item', 'quantity', 'machine')
 
 
 @api_view(['POST'])
-def add_item(request):
-    # TODO If order_id is null then create new order, else edit
+def add_item_or_create_order(request):
+    # TODO If order_uuid is null then create new order, else edit
     pass
 
 
@@ -50,21 +50,22 @@ def get_self_orders(request):
 
 @api_view(['GET'])
 def view_order(request):
-    order_id = request.GET.get('order_id', None)
-    if order_id is None:
-        raise exceptions.ParseError('order_id is required')
+    order_uuid = request.GET.get('order_uuid', None)
+    if order_uuid is None:
+        raise exceptions.ParseError('order_uuid is required')
     return Response(
         status=status.HTTP_200_OK,
-        data=ExplicitOrder(Order.objects.filter(order_id=order_id),
-                           many=True).data
+        data=ExplicitOrder(
+            Order.objects.filter(order_uuid=order_uuid), many=True
+        ).data
     )
 
 
 @api_view(['PUT'])
 def set_item_quantity(request):
     missing_field = {}
-    if (order_id := request.data.get('order_id', None)) is None:
-        missing_field.update({'order_id': 'This field is required.'})
+    if (order_uuid := request.data.get('order_uuid', None)) is None:
+        missing_field.update({'order_uuid': 'This field is required.'})
     if (item_uuid := request.data.get('item_uuid', None)) is None:
         missing_field.update({'item_uuid': 'This field is required.'})
     if (new_quantity := request.data.get('new_quantity', None)) is None:
@@ -77,7 +78,9 @@ def set_item_quantity(request):
             {'new_quantity': 'This field cannot be negative'}
         )
 
-    order_obj = Order.objects.filter(order_id=order_id, item__uuid=item_uuid)
+    order_obj = Order.objects.filter(
+        order_uuid=order_uuid, item__uuid=item_uuid
+    )
     if order_obj is None:
         raise exceptions.NotFound(['Order item not found'])
 
@@ -87,24 +90,24 @@ def set_item_quantity(request):
 
 @api_view(['DELETE'])
 def delete_order(request):
-    if (order_id := request.data.get('order_id', None)) is None:
-        raise exceptions.ParseError({'order_id': 'This field is required.'})
-    Order.objects.filter(order_id=order_id).delete()
+    if (order_uuid := request.data.get('order_uuid', None)) is None:
+        raise exceptions.ParseError({'order_uuid': 'This field is required.'})
+    Order.objects.filter(order_uuid=order_uuid).delete()
     return Response(status=status.HTTP_200_OK, data=['ok'])
 
 
 @api_view(['PUT'])
 def checkout_order(request):
     missing_field = {}
-    if (order_id := request.data.get('order_id', None)) is None:
-        missing_field.update({'order_id': 'This field is required.'})
+    if (order_uuid := request.data.get('order_uuid', None)) is None:
+        missing_field.update({'order_uuid': 'This field is required.'})
     if (machine_uuid := request.data.get('machine_uuid', None)) is None:
         missing_field.update({'machine_uuid': 'This field is required.'})
 
     if bool(missing_field):
         raise exceptions.ParseError(missing_field)
 
-    order_obj = Order.objects.filter(order_id=order_id)
+    order_obj = Order.objects.filter(order_uuid=order_uuid)
     machine_obj = Machine.objects.get(uuid=machine_uuid)
     if order_obj is None:
         raise exceptions.NotFound(['Order item not found'])

@@ -18,7 +18,7 @@ Content-Type: {{contentType}}
 Authorization: {{authHeader}}
 
 ###
-GET {{branch}}/view_order?order_id=2
+GET {{branch}}/view_order?order_uuid=4ad6ece6-8e17-59ac-b140-a7afb9b77fbd
 Content-Type: {{contentType}}
 Authorization: {{authHeader}}
 
@@ -28,7 +28,7 @@ Content-Type: {{contentType}}
 Authorization: {{authHeader}}
 
 {
-    "order_id": 2,
+    "order_uuid": "4ad6ece6-8e17-59ac-b140-a7afb9b77fbd",
     "item_uuid": "e5fb8ff4-9520-5118-8195-290803e57460",
     "new_quantity": 269
 }
@@ -39,7 +39,7 @@ Content-Type: {{contentType}}
 Authorization: {{authHeader}}
 
 {
-    "order_id": 2
+    "order_uuid": "4ad6ece6-8e17-59ac-b140-a7afb9b77fbd"
 }
 
 ###
@@ -48,6 +48,6 @@ Content-Type: {{contentType}}
 Authorization: {{authHeader}}
 
 {
-    "order_id": 2,
+    "order_uuid": "4ad6ece6-8e17-59ac-b140-a7afb9b77fbd",
     "machine_uuid": "d89647bf-ebdb-53c5-ae26-99d5256439c5"
 }
