@@ -26,7 +26,7 @@ class ImplicitOrder(EnhancedModelSerializer):
 
     class Meta:
         model = Order
-        fields = ('machine_uuid', 'order_id', 'item', 'quantity')
+        fields = ('machine_uuid', 'order_uuid', 'item', 'quantity')
 
 
 def request_header_to_machine(request):
@@ -60,7 +60,7 @@ def get_order_queue(request):
         status=status.HTTP_200_OK,
         data=ImplicitOrder(
             Order.objects.filter(machine=machine_data.get('id')
-                                ).order_by('order_id'),
+                                ).order_by('order_uuid'),
             many=True
         ).data
     )
