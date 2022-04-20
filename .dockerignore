@@ -1,0 +1,13 @@
+.devcontainer
+.git*
+.venv
+.vscode
+
+.dockerignore
+.editorconfig
+.style.yapf
+*.sql
+LICENSE
+Procfile
+README.md
+runtime.txt
