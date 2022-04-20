@@ -60,13 +60,34 @@ class OrderTests(APITestCase):
         response = client.get(url, **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_set_quantity(self):
-        url = reverse('v1_order:item_quantity')
+    def test_new_order(self):
+        url = reverse('v1_order:edit')
         client = APIClient()
         data = {
-            'order_uuid': 'fda9fd9e-810f-57ea-bcf5-8799583c74bd',
-            'item_uuid': '3964ff86-161f-4bcf-a211-0f2dd5f91812',
-            'new_quantity': 4
+            "item_uuid": "3964ff86-161f-4bcf-a211-0f2dd5f91812",
+            "quantity": 3
+        }
+        response = client.put(url, data, **self.header)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_edit_item_in_order(self):
+        url = reverse('v1_order:edit')
+        client = APIClient()
+        data = {
+            "order_uuid": "fda9fd9e-810f-57ea-bcf5-8799583c74bd",
+            "item_uuid": "3964ff86-161f-4bcf-a211-0f2dd5f91812",
+            "quantity": 69
+        }
+        response = client.put(url, data, **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_delete_item_in_order(self):
+        url = reverse('v1_order:edit')
+        client = APIClient()
+        data = {
+            "order_uuid": "fda9fd9e-810f-57ea-bcf5-8799583c74bd",
+            "item_uuid": "3964ff86-161f-4bcf-a211-0f2dd5f91812",
+            "quantity": 0
         }
         response = client.put(url, data, **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
