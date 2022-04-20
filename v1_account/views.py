@@ -52,25 +52,25 @@ def sign_in(request):
     password = request.data.get('password', None)
 
     if not email:
-        errors['email'] = 'This field is required.'
+        errors['email'] = 'This field is required'
         valid = False
 
     if not password:
-        errors['password'] = 'This field is required.'
+        errors['password'] = 'This field is required'
         valid = False
 
     if (valid == False):
         raise exceptions.NotAuthenticated(errors)
 
     if ((user := get_object_or_None(CustomUser, email=email)) is None):
-        raise exceptions.NotFound('User email not found.')
+        raise exceptions.NotFound('User email not found')
 
     if not (user.is_active):
-        raise exceptions.NotFound('User inactive.')
+        raise exceptions.NotFound('User inactive')
 
     ser_user = PasswdUserSerializer(user).data
     if not check_password(password, ser_user.get('password', None)):
-        raise exceptions.AuthenticationFailed('Wrong password.')
+        raise exceptions.AuthenticationFailed('Wrong password')
 
     refresh_token = RefreshToken.for_user(user)
     access_token = refresh_token.access_token
@@ -87,8 +87,8 @@ def sign_in(request):
 def sign_out(request):
     user_obj = request_header_to_object(request, CustomUser)
     if (user_obj is None):
-        raise exceptions.NotFound('User not found.')
-    return Response(status=status.HTTP_200_OK, data=['ok'])
+        raise exceptions.NotFound('User not found')
+    return Response(status=status.HTTP_200_OK, data=['Ok'])
 
 
 @api_view(['PUT'])
@@ -96,4 +96,4 @@ def sign_out(request):
 def reset_credit(request):
     new_credit = request.data.get('new_credit', 3000)
     CustomUser.objects.all().update(rem_credit=new_credit)
-    return Response(['ok'])
+    return Response(status=status.HTTP_200_OK, data=['Ok'])

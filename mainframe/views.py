@@ -67,7 +67,7 @@ def get_object(model, explicit=None, **kwargs):
     try:
         uuid = data['uuid']
     except KeyError:
-        raise exceptions.ParseError({'uuid': 'This field is required.'})
+        raise exceptions.ParseError({'uuid': 'This field is required'})
     Serializer = SERIALIZERS[model] if explicit is None else explicit
     return Response(Serializer(get_by_uuid(model, uuid)).data)
 
@@ -85,7 +85,7 @@ def delete_object(model, **kwargs):
     try:
         uuid = data['uuid']
     except KeyError:
-        raise exceptions.ParseError({'uuid': 'This field is required.'})
+        raise exceptions.ParseError({'uuid': 'This field is required'})
     get_by_uuid(model, uuid).delete()
     return Response(**DELETE_RESPONSE)
 

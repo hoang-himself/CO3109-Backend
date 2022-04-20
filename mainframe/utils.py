@@ -14,17 +14,17 @@ def header_to_jwt_token(request):
     token_header = request.headers.get('Authorization', None)
     if (token_header is None):
         raise exceptions.AuthenticationFailed(
-            {'Authorization': 'This header is required.'}
+            {'Authorization': 'This header is required'}
         )
     try:
         token = token_header.split(' ')[1]
     except IndexError:
         raise exceptions.AuthenticationFailed(
-            {'Authorization': 'Invalid token.'}
+            {'Authorization': 'Invalid token'}
         )
     if (token is None):
         raise exceptions.AuthenticationFailed(
-            {'JWT': 'This field is required.'}
+            {'JWT': 'This field is required'}
         )
     return token
 
@@ -33,13 +33,13 @@ def jwt_token_to_object(token, model):
     try:
         payload = jwt.decode(token, settings.JWT_KEY, algorithms=['HS256'])
         if payload.get('typ', None) != 'access':
-            raise exceptions.ParseError('Invalid access token.')
+            raise exceptions.ParseError('Invalid access token')
     except jwt.ExpiredSignatureError:
-        raise exceptions.AuthenticationFailed('Access token expired.')
+        raise exceptions.AuthenticationFailed('Access token expired')
 
     obj = get_object_or_None(model, uuid=payload.get('uuid', None))
     if (obj is None):
-        raise exceptions.NotFound('Not found.')
+        raise exceptions.NotFound('Not found')
     return obj
 
 

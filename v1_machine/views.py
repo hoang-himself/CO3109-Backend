@@ -33,12 +33,12 @@ def request_header_to_machine(request):
     uuid_header = request.headers.get('X-MACHINE-UUID', None)
     if (uuid_header is None):
         raise exceptions.AuthenticationFailed(
-            {'X-MACHINE-UUID': 'This header is required.'}
+            {'X-MACHINE-UUID': 'This header is required'}
         )
     uuid = uuid_header.split(' ')[1]
     obj = get_object_or_None(Machine, uuid=uuid)
     if (obj is None):
-        raise exceptions.NotFound('Not found.')
+        raise exceptions.NotFound('Not found')
     return obj
 
 
@@ -71,4 +71,4 @@ def get_order_queue(request):
 def clear_order(request):
     # TODO After machine successfully dispenses drinks, clear order from table
     # and add to prod_hist
-    return Response(status=status.HTTP_200_OK, data=['ok'])
+    return Response(status=status.HTTP_200_OK, data=['Ok'])
