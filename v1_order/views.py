@@ -6,6 +6,7 @@ from rest_framework import (exceptions, serializers, status)
 
 from mainframe.models import (Machine, Order, Product)
 from mainframe.serializers import EnhancedModelSerializer
+from mainframe.utils import request_header_to_object
 
 CustomUser = get_user_model()
 
@@ -17,6 +18,12 @@ class ProductField(serializers.ModelSerializer):
 
 
 class ImplicitOrder(EnhancedModelSerializer):
+    class Meta:
+        model = Order
+        fields = ('order_id', 'machine')
+
+
+class ExplicitOrder(EnhancedModelSerializer):
     item = ProductField()
 
     class Meta:
@@ -32,8 +39,13 @@ def add_item(request):
 
 @api_view(['GET'])
 def get_self_orders(request):
-    # TODO Get all orders of account
-    pass
+    user_obj = request_header_to_object(request, CustomUser)
+    return Response(
+        status=status.HTTP_200_OK,
+        data=ImplicitOrder(
+            Order.objects.filter(user=user_obj).distinct('user'), many=True
+        ).data
+    )
 
 
 @api_view(['GET'])
@@ -43,7 +55,7 @@ def view_order(request):
         raise exceptions.ParseError('order_id is required')
     return Response(
         status=status.HTTP_200_OK,
-        data=ImplicitOrder(Order.objects.filter(order_id=order_id),
+        data=ExplicitOrder(Order.objects.filter(order_id=order_id),
                            many=True).data
     )
 
