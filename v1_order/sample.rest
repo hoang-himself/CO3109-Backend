@@ -34,6 +34,15 @@ Authorization: {{authHeader}}
 }
 
 ###
+DELETE {{branch}}/delete_order
+Content-Type: {{contentType}}
+Authorization: {{authHeader}}
+
+{
+    "order_id": 2
+}
+
+###
 PUT {{branch}}/checkout
 Content-Type: {{contentType}}
 Authorization: {{authHeader}}
