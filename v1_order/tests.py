@@ -66,6 +66,14 @@ class OrderTests(APITestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_delete_order(self):
+        url = reverse('v1_order:delete')
+        client = APIClient()
+        response = client.delete(url, {
+            'order_id': 69,
+        }, **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
     def test_set_machine(self):
         url = reverse('v1_order:checkout')
         client = APIClient()
