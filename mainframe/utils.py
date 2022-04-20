@@ -43,7 +43,7 @@ def jwt_token_to_object(token, model):
     return obj
 
 
-def request_header_to_object(request, model):
+def request_header_to_object(model, request):
     token = header_to_jwt_token(request)
     obj = jwt_token_to_object(token, model)
     return obj
