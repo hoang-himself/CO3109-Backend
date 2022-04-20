@@ -94,5 +94,6 @@ def sign_out(request):
 @api_view(['PUT'])
 @permission_classes([permissions.AllowAny])
 def reset_credit(request):
-    # TODO Reset credit for all user with optional credit amount
-    pass
+    new_credit = request.data.get('new_credit', 3000)
+    CustomUser.objects.all().update(rem_credit=new_credit)
+    return Response(['ok'])
