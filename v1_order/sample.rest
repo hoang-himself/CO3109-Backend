@@ -22,15 +22,48 @@ GET {{branch}}/view_order?order_uuid=4ad6ece6-8e17-59ac-b140-a7afb9b77fbd
 Content-Type: {{contentType}}
 Authorization: {{authHeader}}
 
-###
-PUT {{branch}}/item_quantity
+### New order
+PUT {{branch}}/edit_order
+Content-Type: {{contentType}}
+Authorization: {{authHeader}}
+
+{
+    "order_uuid": null,
+    "item_uuid": "ba50b773-0580-5da1-b4fa-56f01696a1cb",
+    "quantity": 3
+}
+
+### New item in order
+PUT {{branch}}/edit_order
+Content-Type: {{contentType}}
+Authorization: {{authHeader}}
+
+{
+    "order_uuid": "4ad6ece6-8e17-59ac-b140-a7afb9b77fbd",
+    "item_uuid": "baf9c355-a040-5f07-a669-a92e6245bf3e",
+    "quantity": 4
+}
+
+### Edit item in order
+PUT {{branch}}/edit_order
 Content-Type: {{contentType}}
 Authorization: {{authHeader}}
 
 {
     "order_uuid": "4ad6ece6-8e17-59ac-b140-a7afb9b77fbd",
     "item_uuid": "e5fb8ff4-9520-5118-8195-290803e57460",
-    "new_quantity": 269
+    "quantity": 269
+}
+
+### Delete item in order
+PUT {{branch}}/edit_order
+Content-Type: {{contentType}}
+Authorization: {{authHeader}}
+
+{
+    "order_uuid": "4ad6ece6-8e17-59ac-b140-a7afb9b77fbd",
+    "item_uuid": "072c8269-eda2-5085-8d5f-4811e5adb80d",
+    "quantity": 0
 }
 
 ###

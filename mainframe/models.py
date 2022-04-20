@@ -101,14 +101,14 @@ class Order(TemplateModel):
         related_query_name='machine_query',
         on_delete=models.CASCADE
     )
-    order_uuid = models.UUIDField()
+    order_uuid = models.UUIDField(default=uuid.uuid4)
     quantity = models.IntegerField()
 
     class Meta:
         verbose_name = 'order'
         verbose_name_plural = 'orders'
         constraints = [
-            models.UniqueConstraint(fields=['item', 'user'], name='user_item')
+            models.UniqueConstraint(fields=['item', 'order_uuid'], name='order_item')
         ]
         indexes = [
             models.Index(fields=[

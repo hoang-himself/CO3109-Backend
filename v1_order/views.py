@@ -1,8 +1,11 @@
+from annoying.functions import get_object_or_None
 from django.contrib.auth import get_user_model
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import (exceptions, serializers, status)
+
+from uuid import uuid4
 
 from mainframe.models import (Machine, Order, Product)
 from mainframe.serializers import EnhancedModelSerializer
@@ -23,23 +26,66 @@ class ImplicitOrder(EnhancedModelSerializer):
         fields = ('order_uuid', 'machine')
 
 
-class ExplicitOrder(EnhancedModelSerializer):
+class OrderDetail(EnhancedModelSerializer):
     item = ProductField()
 
     class Meta:
         model = Order
-        fields = ('order_uuid', 'item', 'quantity', 'machine')
+        fields = ('item', 'quantity')
 
 
-@api_view(['POST'])
-def add_item_or_create_order(request):
-    # TODO If order_uuid is null then create new order, else edit
-    pass
+@api_view(['PUT'])
+def edit_or_create_order(request):
+    missing_field = {}
+    order_uuid = request.data.get('order_uuid', None)
+    if (item_uuid := request.data.get('item_uuid', None)) is None:
+        missing_field.update({'item_uuid': 'This field is required'})
+    if (quantity := request.data.get('quantity', None)) is None:
+        missing_field.update({'quantity': 'This field is required'})
+    if bool(missing_field):
+        raise exceptions.ParseError(missing_field)
+
+    # Delete item
+    if (int(quantity) < 1):
+        Order.objects.filter(order_uuid=order_uuid,
+                             item__uuid=item_uuid).delete()
+        return Response(status=status.HTTP_200_OK, data=['Deleted'])
+
+    user_obj = request_header_to_object(CustomUser, request)
+
+    # New order
+    order_obj = Order.objects.filter(order_uuid=order_uuid)
+    if not order_obj.exists():
+        order_uuid = uuid4()
+        Order.objects.create(
+            user=user_obj,
+            order_uuid=order_uuid,
+            item=Product.objects.get(uuid=item_uuid),
+            quantity=quantity
+        )
+        return Response(
+            status=status.HTTP_201_CREATED, data={'order_uuid': order_uuid}
+        )
+
+    # Order does not contain item
+    order_obj = order_obj.filter(item__uuid=item_uuid)
+    if not order_obj.exists():
+        Order.objects.create(
+            user=user_obj,
+            order_uuid=order_uuid,
+            item=Product.objects.get(uuid=item_uuid),
+            quantity=quantity
+        )
+        return Response(status=status.HTTP_200_OK, data=['Ok'])
+
+    # Just update quantity
+    order_obj.update(quantity=quantity)
+    return Response(status=status.HTTP_200_OK, data=['Ok'])
 
 
 @api_view(['GET'])
 def get_self_orders(request):
-    user_obj = request_header_to_object(request, CustomUser)
+    user_obj = request_header_to_object(CustomUser, request)
     return Response(
         status=status.HTTP_200_OK,
         data=ImplicitOrder(
@@ -55,54 +101,27 @@ def view_order(request):
         raise exceptions.ParseError('order_uuid is required')
     return Response(
         status=status.HTTP_200_OK,
-        data=ExplicitOrder(
+        data=OrderDetail(
             Order.objects.filter(order_uuid=order_uuid), many=True
         ).data
     )
 
 
-@api_view(['PUT'])
-def set_item_quantity(request):
-    missing_field = {}
-    if (order_uuid := request.data.get('order_uuid', None)) is None:
-        missing_field.update({'order_uuid': 'This field is required.'})
-    if (item_uuid := request.data.get('item_uuid', None)) is None:
-        missing_field.update({'item_uuid': 'This field is required.'})
-    if (new_quantity := request.data.get('new_quantity', None)) is None:
-        missing_field.update({'new_quantity': 'This field is required.'})
-
-    if bool(missing_field):
-        raise exceptions.ParseError(missing_field)
-    if (int(new_quantity) < 0):
-        raise exceptions.ParseError(
-            {'new_quantity': 'This field cannot be negative'}
-        )
-
-    order_obj = Order.objects.filter(
-        order_uuid=order_uuid, item__uuid=item_uuid
-    )
-    if order_obj is None:
-        raise exceptions.NotFound(['Order item not found'])
-
-    order_obj.update(quantity=new_quantity)
-    return Response(['ok'])
-
-
 @api_view(['DELETE'])
 def delete_order(request):
     if (order_uuid := request.data.get('order_uuid', None)) is None:
-        raise exceptions.ParseError({'order_uuid': 'This field is required.'})
+        raise exceptions.ParseError({'order_uuid': 'This field is required'})
     Order.objects.filter(order_uuid=order_uuid).delete()
-    return Response(status=status.HTTP_200_OK, data=['ok'])
+    return Response(status=status.HTTP_200_OK, data=['Deleted'])
 
 
 @api_view(['PUT'])
 def checkout_order(request):
     missing_field = {}
     if (order_uuid := request.data.get('order_uuid', None)) is None:
-        missing_field.update({'order_uuid': 'This field is required.'})
+        missing_field.update({'order_uuid': 'This field is required'})
     if (machine_uuid := request.data.get('machine_uuid', None)) is None:
-        missing_field.update({'machine_uuid': 'This field is required.'})
+        missing_field.update({'machine_uuid': 'This field is required'})
 
     if bool(missing_field):
         raise exceptions.ParseError(missing_field)
