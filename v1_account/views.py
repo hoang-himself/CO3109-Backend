@@ -29,8 +29,8 @@ class PasswdUserSerializer(EnhancedModelSerializer):
 
 @api_view(['GET'])
 def about_self(request):
-    user = request_header_to_object(request, CustomUser)
-    return Response(UserSelfSerializer(user).data)
+    user_obj = request_header_to_object(request, CustomUser)
+    return Response(UserSelfSerializer(user_obj).data)
 
 
 @api_view(['POST'])
@@ -85,10 +85,11 @@ def sign_in(request):
 
 @api_view(['DELETE'])
 def sign_out(request):
-    user = request_header_to_object(request, CustomUser)
-    if (user is None):
+    user_obj = request_header_to_object(request, CustomUser)
+    if (user_obj is None):
         raise exceptions.NotFound('User not found.')
     return Response(status=status.HTTP_200_OK, data=['ok'])
+
 
 @api_view(['PUT'])
 @permission_classes([permissions.AllowAny])

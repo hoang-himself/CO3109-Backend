@@ -1,9 +1,6 @@
 @branch={{hostname}}/api/v1/account
 @contentType=application/json
-@authToken=JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0eXAiOiJhY2Nlc3MiLCJleHAiOjE2NTAyNDU5ODgsImlhdCI6MTY1MDI0MjM4OCwianRpIjoiYzFmMjcxMGZlZTFkNDFkNmI0NjdiMDM4ZDdmZGQ2MGMiLCJ1dWlkIjoiYjAzNDMzODQtMDE1Mi00NjcxLWE3ZDYtYzIxMjJhNjVlYWIxIiwiaXNzIjoiREFBUyJ9.87WJbdnHNG3YycIahpQ0Cnp4AXc9086qOZpwAeqXBUM
-
-###
-GET {{branch}}/all
+@authToken=JWT {{signin.response.body.access_token}}
 
 ###
 POST {{branch}}/signup
@@ -17,13 +14,8 @@ Content-Type: {{contentType}}
     "password": "hig@emovaw.za"
 }
 
-### Exception handler
-POST {{branch}}/signup
-Content-Type: {{contentType}}
-
-{"first_name": "561251", "last_name": "512515", "email": "nguyenchinhkhoi@gmail.com", "phone": "41276641", "password": "ytF4d6R65YqRUdb"}
-
 ###
+# @name signin
 POST {{branch}}/signin
 Content-Type: {{contentType}}
 
