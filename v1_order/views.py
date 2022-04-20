@@ -87,13 +87,14 @@ def set_item_quantity(request):
 
 @api_view(['DELETE'])
 def delete_order(request):
-    # TODO Requires order_id
-    pass
+    if (order_id := request.data.get('order_id', None)) is None:
+        raise exceptions.ParseError({'order_id': 'This field is required.'})
+    Order.objects.filter(order_id=order_id).delete()
+    return Response(status=status.HTTP_200_OK, data=['ok'])
 
 
 @api_view(['PUT'])
 def checkout_order(request):
-    # TODO Assign machine_id to known order_id
     missing_field = {}
     if (order_id := request.data.get('order_id', None)) is None:
         missing_field.update({'order_id': 'This field is required.'})
