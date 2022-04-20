@@ -58,3 +58,10 @@ class TestUser(APITestCase):
         client = APIClient()
         response = client.delete(url, **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_reset_credit(self):
+        url = reverse('v1_account:reset_credit')
+        client = APIClient()
+        data = {'new_credit': 3000}
+        response = client.put(url, data, **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
