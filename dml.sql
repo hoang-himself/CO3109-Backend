@@ -119,7 +119,7 @@ VALUES (
 INSERT INTO "mainframe_order"(
     "uuid",
     "quantity",
-    "order_id",
+    "order_uuid",
     "machine_id",
     "item_id",
     "user_id"
@@ -127,7 +127,7 @@ INSERT INTO "mainframe_order"(
 VALUES (
     '761262f5-6deb-5aba-9599-01c67cf84d56',
     1,
-    '2',
+    '4ad6ece6-8e17-59ac-b140-a7afb9b77fbd',
     (
       SELECT id
       FROM "mainframe_machine"
@@ -147,7 +147,7 @@ VALUES (
   (
     '50807864-db73-548e-b703-6a229d2f565f',
     1,
-    '2',
+    'de6f909e-78c7-5be4-8e88-29aa60c4320a',
     (
       SELECT id
       FROM "mainframe_machine"
@@ -167,7 +167,7 @@ VALUES (
   (
     '616b29d4-37b6-599a-b870-9c9be185b5a2',
     2,
-    '2',
+    '4ad6ece6-8e17-59ac-b140-a7afb9b77fbd',
     (
       SELECT id
       FROM "mainframe_machine"
@@ -187,7 +187,7 @@ VALUES (
   (
     '5d4b141d-ee40-54b1-89f8-203dbfa7b2d9',
     1,
-    '420',
+    'de6f909e-78c7-5be4-8e88-29aa60c4320a',
     (
       SELECT id
       FROM "mainframe_machine"
