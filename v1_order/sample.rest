@@ -1,16 +1,31 @@
 @branch={{hostname}}/api/v1/order
 @contentType=application/json
-@authToken=JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0eXAiOiJhY2Nlc3MiLCJleHAiOjE2NTAzMDcwNzEsImlhdCI6MTY1MDMwMzQ3MSwianRpIjoiYmIxY2JiYTBkNTU4NDJkMmE3OTY4MmQyYTFlYmVmMmQiLCJ1dWlkIjoiYjAzNDMzODQtMDE1Mi00NjcxLWE3ZDYtYzIxMjJhNjVlYWIxIiwiaXNzIjoiREFBUyJ9.7bocD2zMWk9q_uPzNnnP-nEvlGonQSDD8F9gXbCKorg
+@authHeader=JWT {{signin.response.body.access_token}}
+
+###
+# @name signin
+POST {{hostname}}/api/v1/account/signin
+Content-Type: {{contentType}}
+
+{
+    "email": "hig@emovaw.za",
+    "password": "hig@emovaw.za"
+}
+
+###
+GET {{branch}}/my_orders
+Content-Type: {{contentType}}
+Authorization: {{authHeader}}
 
 ###
 GET {{branch}}/view_order?order_id=2
 Content-Type: {{contentType}}
-Authorization: {{authToken}}
+Authorization: {{authHeader}}
 
 ###
 PUT {{branch}}/item_quantity
 Content-Type: {{contentType}}
-Authorization: {{authToken}}
+Authorization: {{authHeader}}
 
 {
     "order_id": 2,
@@ -21,7 +36,7 @@ Authorization: {{authToken}}
 ###
 PUT {{branch}}/checkout
 Content-Type: {{contentType}}
-Authorization: {{authToken}}
+Authorization: {{authHeader}}
 
 {
     "order_id": 2,
