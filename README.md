@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/Smithienious/CO3109-Backend/actions/workflows/CI.yml/badge.svg)](https://github.com/Smithienious/CO3109-Backend/actions/workflows/CI.yml)
 
-We are making a vending machine with micro:bit and a lot of shit this time
+We are making a dispenser with micro:bit and a lot of shit this time
 
 ## Getting started
 
@@ -51,11 +51,4 @@ find . -path "*/migrations/*.py" -not -name "__init__.py" -not -path "*/db/*" -d
 python manage.py makemigrations
 python manage.py migrate
 python manage.py collectstatic --no-input
-```
-
-### Generate SECRET_KEY and JWT_KEY
-
-```python
-from django.core.management.utils import get_random_secret_key
-get_random_secret_key()
 ```
