@@ -54,8 +54,8 @@ def edit_or_create_order(request):
     user_obj = request_header_to_object(CustomUser, request)
 
     # New order
-    order_obj = Order.objects.filter(order_uuid=order_uuid)
-    if not order_obj.exists():
+    order_queryset = Order.objects.filter(order_uuid=order_uuid)
+    if not order_queryset.exists():
         order_uuid = uuid4()
         Order.objects.create(
             user=user_obj,
@@ -68,8 +68,8 @@ def edit_or_create_order(request):
         )
 
     # Order does not contain item
-    order_obj = order_obj.filter(item__uuid=item_uuid)
-    if not order_obj.exists():
+    order_queryset = order_queryset.filter(item__uuid=item_uuid)
+    if not order_queryset.exists():
         Order.objects.create(
             user=user_obj,
             order_uuid=order_uuid,
@@ -79,7 +79,7 @@ def edit_or_create_order(request):
         return Response(status=status.HTTP_200_OK, data=['Ok'])
 
     # Just update quantity
-    order_obj.update(quantity=quantity)
+    order_queryset.update(quantity=quantity)
     return Response(status=status.HTTP_200_OK, data=['Ok'])
 
 
@@ -126,12 +126,12 @@ def checkout_order(request):
     if bool(missing_field):
         raise exceptions.ParseError(missing_field)
 
-    order_obj = Order.objects.filter(order_uuid=order_uuid)
+    order_queryset = Order.objects.filter(order_uuid=order_uuid)
     machine_obj = Machine.objects.get(uuid=machine_uuid)
-    if order_obj is None:
+    if order_queryset is None:
         raise exceptions.NotFound(['Order item not found'])
     if machine_obj is None:
         raise exceptions.NotFound(['Machine not found'])
 
-    order_obj.update(machine=machine_obj)
+    order_queryset.update(machine=machine_obj)
     return Response(['ok'])

@@ -26,10 +26,10 @@ def get_all(_):
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
 def search_by_name(request):
-    instances = Product.objects.filter(name__icontains=request.GET.get('key'))
+    item_queryset = Product.objects.filter(name__icontains=request.GET.get('key'))
     return Response(
         status=status.HTTP_200_OK,
-        data=ImplicitProduct(instances, many=True).data
+        data=ImplicitProduct(item_queryset, many=True).data
     )
 
 
@@ -46,8 +46,8 @@ def search_by_filter(request):
         else:
             query += "__icontains"
         dic.update({query: value})
-    instances = Product.objects.filter(**dic)
+    item_queryset = Product.objects.filter(**dic)
     return Response(
         status=status.HTTP_200_OK,
-        data=ImplicitProduct(instances, many=True).data
+        data=ImplicitProduct(item_queryset, many=True).data
     )
