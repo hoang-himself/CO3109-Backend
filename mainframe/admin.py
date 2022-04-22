@@ -6,7 +6,7 @@ from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
 from .forms import (CustomUserCreationForm, CustomUserChangeForm)
-from .models import (Order, Product, CustomUser, ProductHistory)
+from .models import (Order, Product, CustomUser)
 
 
 class CustomUserAdmin(UserAdmin):
@@ -15,9 +15,11 @@ class CustomUserAdmin(UserAdmin):
         (None, {
             'fields': ('password', )
         }),
-        ('Personal info', {
-            'fields': ('email', 'first_name', 'last_name', 'rem_credit')
-        }),
+        (
+            'Personal info', {
+                'fields': ('email', 'first_name', 'last_name', 'rem_credit')
+            }
+        ),
         (
             'Permissions', {
                 'fields':
@@ -117,7 +119,6 @@ class CustomLogEntryAdmin(admin.ModelAdmin):
     object_link.short_description = "object"
 
 
-admin.site.register(ProductHistory)
 admin.site.register(Order)
 admin.site.register(Product)
 admin.site.register(CustomUser, CustomUserAdmin)

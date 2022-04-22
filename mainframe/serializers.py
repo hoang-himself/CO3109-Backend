@@ -3,7 +3,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group
 
 from .utils import validate_uuid4
-from .models import (Machine, ProductHistory, Order, Product, CustomUser)
+from .models import (Machine, Order, Product, CustomUser)
 
 # For custom classes
 from collections import OrderedDict
@@ -326,12 +326,6 @@ class CustomUserSerializer(EnhancedModelSerializer):
         if bool(errors):
             raise DRFValidationError(errors)
         return ret
-
-
-class ProductHistorySerializer(EnhancedModelSerializer):
-    class Meta:
-        model = ProductHistory
-        exclude = ('id', )
 
 
 class MachineSerializer(EnhancedModelSerializer):

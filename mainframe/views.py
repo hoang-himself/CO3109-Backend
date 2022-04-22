@@ -12,7 +12,6 @@ from . import serializers
 CustomUser = get_user_model()
 
 SERIALIZERS = {
-    models.ProductHistory: serializers.ProductHistorySerializer,
     models.Order: serializers.OrderSerializer,
     models.Product: serializers.ProductSerializer,
     CustomUser: serializers.CustomUserSerializer,
