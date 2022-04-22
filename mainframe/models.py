@@ -67,48 +67,23 @@ class CustomUser(AbstractUser):
         verbose_name_plural = 'users'
 
 
-class ProductHistory(TemplateModel):
-    item = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
-    time_recorded = models.DateTimeField(auto_now_add=True, editable=False)
-
-    class Meta:
-        verbose_name = 'prod_hist'
-        verbose_name_plural = 'prod_hists'
-        indexes = [models.Index(fields=[
-            'item',
-        ])]
-
-
 class Order(TemplateModel):
-    user = models.ForeignKey(
-        CustomUser,
-        related_name='order_user',
-        related_query_name='user_query',
-        on_delete=models.CASCADE
-    )
-    item = models.ForeignKey(
-        Product,
-        related_name='order_item',
-        related_query_name='item_query',
-        on_delete=models.CASCADE
-    )
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    item = models.ForeignKey(Product, on_delete=models.CASCADE)
     machine = models.ForeignKey(
-        Machine,
-        null=True,
-        blank=True,
-        related_name='order_machine',
-        related_query_name='machine_query',
-        on_delete=models.CASCADE
+        Machine, null=True, blank=True, on_delete=models.CASCADE
     )
     order_uuid = models.UUIDField(default=uuid.uuid4)
     quantity = models.IntegerField()
+    is_paid = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'order'
         verbose_name_plural = 'orders'
         constraints = [
-            models.UniqueConstraint(fields=['item', 'order_uuid'], name='order_item')
+            models.UniqueConstraint(
+                fields=['item', 'order_uuid'], name='order_item'
+            )
         ]
         indexes = [
             models.Index(fields=[
