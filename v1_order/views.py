@@ -1,4 +1,3 @@
-from annoying.functions import get_object_or_None
 from django.contrib.auth import get_user_model
 
 from rest_framework.decorators import api_view
@@ -47,8 +46,9 @@ def edit_or_create_order(request):
 
     # Delete item
     if (int(quantity) < 1):
-        Order.objects.filter(order_uuid=order_uuid,
-                             item__uuid=item_uuid).delete()
+        Order.objects.filter(
+            order_uuid=order_uuid, is_paid=False, item__uuid=item_uuid
+        ).delete()
         return Response(status=status.HTTP_200_OK, data=['Deleted'])
 
     user_obj = request_header_to_object(CustomUser, request)
@@ -84,12 +84,28 @@ def edit_or_create_order(request):
 
 
 @api_view(['GET'])
-def get_self_orders(request):
+def get_orders(request):
     user_obj = request_header_to_object(CustomUser, request)
+
+    order_queryset = Order.objects.filter(user=user_obj)
+    dic = {'is_paid': False}
+    for key, value in request.GET.items():
+        _key = key.lower()
+        _value = value.lower()
+        if not _key == 'history':
+            continue
+
+        if _value == 'paid':
+            dic.update({'is_paid': True})
+        elif _value == 'all':
+            dic.pop('is_paid')
+        else:
+            dic.update({'is_paid': False})
+
     return Response(
         status=status.HTTP_200_OK,
         data=ImplicitOrder(
-            Order.objects.filter(user=user_obj).distinct('user'), many=True
+            order_queryset.filter(**dic).distinct('order_uuid'), many=True
         ).data
     )
 
@@ -111,8 +127,22 @@ def view_order(request):
 def delete_order(request):
     if (order_uuid := request.data.get('order_uuid', None)) is None:
         raise exceptions.ParseError({'order_uuid': 'This field is required'})
-    Order.objects.filter(order_uuid=order_uuid).delete()
+    Order.objects.filter(order_uuid=order_uuid, is_paid=False).delete()
     return Response(status=status.HTTP_200_OK, data=['Deleted'])
+
+
+class MinimalProductField(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ('uuid', 'price')
+
+
+class MinimalOrderSerializer(EnhancedModelSerializer):
+    item = MinimalProductField()
+
+    class Meta:
+        model = Order
+        fields = ('item', 'quantity')
 
 
 @api_view(['PUT'])
@@ -126,12 +156,20 @@ def checkout_order(request):
     if bool(missing_field):
         raise exceptions.ParseError(missing_field)
 
-    order_queryset = Order.objects.filter(order_uuid=order_uuid)
+    order_queryset = Order.objects.filter(order_uuid=order_uuid, is_paid=False)
     machine_obj = Machine.objects.get(uuid=machine_uuid)
     if order_queryset is None:
         raise exceptions.NotFound(['Order item not found'])
     if machine_obj is None:
         raise exceptions.NotFound(['Machine not found'])
+
+    order_data = MinimalOrderSerializer(order_queryset, many=True).data
+    user_obj = order_queryset.first().user
+    total_price = 0
+    for order in order_data:
+        total_price += order.get('item').get('price') * order.get('quantity')
+    if total_price > user_obj.rem_credit:
+        raise exceptions.ValidationError(['Insufficient credits'])
 
     order_queryset.update(machine=machine_obj)
     return Response(['ok'])
