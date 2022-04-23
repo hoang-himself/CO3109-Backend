@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     'v1_machine',
     'v1_product',
     'v1_order'
-    # 'v1_prod_hist'
 ]
 
 MIDDLEWARE = [
