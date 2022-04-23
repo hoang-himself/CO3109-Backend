@@ -18,7 +18,7 @@ VALUES (
   );
 INSERT INTO "mainframe_customuser"(
     "password",
-    "rem_credit",
+    "credit",
     "last_login",
     "is_superuser",
     "first_name",

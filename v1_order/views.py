@@ -168,7 +168,7 @@ def checkout_order(request):
     total_price = 0
     for order in order_data:
         total_price += order.get('item').get('price') * order.get('quantity')
-    if total_price > user_obj.rem_credit:
+    if total_price > user_obj.credit:
         raise exceptions.ValidationError(['Insufficient credits'])
 
     order_queryset.update(machine=machine_obj)
