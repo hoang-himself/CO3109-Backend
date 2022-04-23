@@ -18,6 +18,16 @@ Content-Type: {{contentType}}
 Authorization: {{authHeader}}
 
 ###
+GET {{branch}}/my_orders?history=paid
+Content-Type: {{contentType}}
+Authorization: {{authHeader}}
+
+###
+GET {{branch}}/my_orders?history=all
+Content-Type: {{contentType}}
+Authorization: {{authHeader}}
+
+###
 GET {{branch}}/view_order?order_uuid=4ad6ece6-8e17-59ac-b140-a7afb9b77fbd
 Content-Type: {{contentType}}
 Authorization: {{authHeader}}
