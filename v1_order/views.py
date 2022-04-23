@@ -165,11 +165,15 @@ def checkout_order(request):
 
     order_data = MinimalOrderSerializer(order_queryset, many=True).data
     user_obj = order_queryset.first().user
+
     total_price = 0
     for order in order_data:
         total_price += order.get('item').get('price') * order.get('quantity')
     if total_price > user_obj.credit:
         raise exceptions.ValidationError(['Insufficient credits'])
 
-    order_queryset.update(machine=machine_obj)
-    return Response(status=status.HTTP_200_OK, data=['Ok'])
+    user_obj.credit -= total_price
+    user_obj.save()
+
+    order_queryset.update(machine=machine_obj, is_paid=True)
+    return Response(status=status.HTTP_202_ACCEPTED, data=['Ok'])

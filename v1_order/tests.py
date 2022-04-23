@@ -107,4 +107,4 @@ class OrderTests(APITestCase):
             'machine_uuid': '7ba89104-9712-4654-b1fd-13afaa182c2b'
         }
         response = client.put(url, data, **self.header)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED)
