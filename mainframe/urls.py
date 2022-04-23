@@ -10,5 +10,4 @@ urlpatterns = [
     path('machine/', include('v1_machine.urls')),
     path('product/', include('v1_product.urls')),
     path('order/', include('v1_order.urls'))
-    # path('prod_hist/', include('v1_prod_hist.urls')),
 ]

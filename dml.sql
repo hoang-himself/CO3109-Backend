@@ -1,3 +1,4 @@
+
 INSERT INTO "mainframe_machine"("uuid", "name")
 VALUES (
     'd89647bf-ebdb-53c5-ae26-99d5256439c5',
@@ -119,6 +120,7 @@ VALUES (
 INSERT INTO "mainframe_order"(
     "uuid",
     "quantity",
+    "is_paid",
     "order_uuid",
     "machine_id",
     "item_id",
@@ -127,6 +129,7 @@ INSERT INTO "mainframe_order"(
 VALUES (
     '761262f5-6deb-5aba-9599-01c67cf84d56',
     1,
+    False,
     '4ad6ece6-8e17-59ac-b140-a7afb9b77fbd',
     (
       SELECT id
@@ -147,6 +150,7 @@ VALUES (
   (
     '50807864-db73-548e-b703-6a229d2f565f',
     1,
+    False,
     'de6f909e-78c7-5be4-8e88-29aa60c4320a',
     (
       SELECT id
@@ -167,6 +171,7 @@ VALUES (
   (
     '616b29d4-37b6-599a-b870-9c9be185b5a2',
     2,
+    False,
     '4ad6ece6-8e17-59ac-b140-a7afb9b77fbd',
     (
       SELECT id
@@ -187,6 +192,7 @@ VALUES (
   (
     '5d4b141d-ee40-54b1-89f8-203dbfa7b2d9',
     1,
+    False,
     'de6f909e-78c7-5be4-8e88-29aa60c4320a',
     (
       SELECT id
@@ -204,6 +210,3 @@ VALUES (
       WHERE email = 'metmir@uwedobi.tr'
     )
   );
-INSERT INTO "mainframe_producthistory" ("uuid", "quantity", "time_recorded")
-VALUES (),
-  ();
