@@ -172,4 +172,4 @@ def checkout_order(request):
         raise exceptions.ValidationError(['Insufficient credits'])
 
     order_queryset.update(machine=machine_obj)
-    return Response(['ok'])
+    return Response(status=status.HTTP_200_OK, data=['Ok'])

@@ -36,7 +36,7 @@ class OrderTests(APITestCase):
             item=item,
             machine=machine,
             order_uuid='fda9fd9e-810f-57ea-bcf5-8799583c74bd',
-            quantity=420
+            quantity=4
         )
         url = reverse('v1_account:sign_in')
         client = APIClient()
