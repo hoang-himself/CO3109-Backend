@@ -18,7 +18,7 @@ CustomUser = get_user_model()
 class UserSelfSerializer(EnhancedModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['email', 'first_name', 'last_name', 'phone', 'rem_credit']
+        fields = ['email', 'first_name', 'last_name', 'phone', 'credit']
 
 
 class PasswdUserSerializer(EnhancedModelSerializer):
@@ -95,5 +95,5 @@ def sign_out(request):
 @permission_classes([permissions.AllowAny])
 def reset_credit(request):
     new_credit = request.data.get('new_credit', 3000)
-    CustomUser.objects.all().update(rem_credit=new_credit)
+    CustomUser.objects.all().update(credit=new_credit)
     return Response(status=status.HTTP_200_OK, data=['Ok'])

@@ -49,7 +49,7 @@ class CustomUser(AbstractUser):
     username = None
     email = models.EmailField(unique=True)
     phone = models.TextField(unique=True)
-    rem_credit = models.IntegerField(default=3000)
+    credit = models.IntegerField(default=3000)
 
     date_joined = models.DateTimeField(
         'date joined', auto_now_add=True, editable=False
