@@ -1,0 +1,13 @@
+*
+
+!**/*.py
+!LICENSE
+!requirements.txt
+
+!/daas/
+!/mainframe/
+!/media/
+!/static/
+!/v1_*/
+
+**/__pycache__
