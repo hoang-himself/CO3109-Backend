@@ -1,11 +1,11 @@
 from annoying.functions import get_object_or_None
 from django.contrib.auth import get_user_model
-from django.db.models import Sum, FloatField, F, Min
+from django.db import models
 
 from rest_framework import (exceptions, permissions, status)
 from rest_framework.decorators import (api_view, permission_classes)
 from rest_framework.response import Response
-from rest_framework.serializers import RelatedField
+from rest_framework import serializers
 
 from mainframe.models import (Machine, Order, OrderItem, OrderQueue, Product)
 from mainframe.serializers import (EnhancedModelSerializer, OrderSerializer)
@@ -88,14 +88,19 @@ def edit_or_create_order(request):
     return Response(status=status.HTTP_200_OK, data=['Ok'])
 
 
-class SimpleRelatedField(RelatedField):
+class SimpleRelatedField(serializers.RelatedField):
     def to_representation(self, value):
         return value
 
 
+class SimpleImageField(serializers.RelatedField):
+    def to_representation(self, value):
+        return '/media' + value
+
+
 class ImplicitOrder(EnhancedModelSerializer):
     total_price = SimpleRelatedField(read_only=True)
-    image = SimpleRelatedField(read_only=True)
+    image = SimpleImageField(read_only=True)
 
     class Meta:
         model = Order
@@ -106,14 +111,13 @@ class ImplicitOrder(EnhancedModelSerializer):
 def get_orders(request):
     user_obj = request_header_to_object(CustomUser, request)
     order_queryset = Order.objects.filter(user=user_obj).annotate(
-        total_price=Sum(
-            F('order_item_set__item__price') * F('order_item_set__quantity'),
-            output_field=FloatField()
+        total_price=models.Sum(
+            models.F('order_item_set__item__price') * models.F('order_item_set__quantity'),
+            output_field=models.FloatField()
         )
     ).annotate(
-        image=Sum(
-            F('order_item_set__item__price') * F('order_item_set__quantity'),
-            output_field=FloatField()
+        image=models.Min('order_item_set__item__image',
+            output_field=models.ImageField()
         )
     )
 
