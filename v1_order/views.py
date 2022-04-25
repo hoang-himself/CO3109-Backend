@@ -23,25 +23,23 @@ def get_all(_):
 
 @api_view(['PUT'])
 def edit_or_create_order(request):
-    missing_field = {}
     uuid = request.data.get('uuid', None)
     create = uuid is None
-    if (name := request.data.get('name', None)) is None:
-        missing_field.update({'name': 'This field is required'})
+
     if (item_uuid := request.data.get('item_uuid', None)) is None:
-        missing_field.update({'item_uuid': 'This field is required'})
+        raise exceptions.ParseError({'item_uuid': 'This field is required'})
     if (quantity := request.data.get('quantity', None)) is None:
-        missing_field.update({'quantity': 'This field is required'})
-    if bool(missing_field):
-        raise exceptions.ParseError(missing_field)
+        raise exceptions.ParseError({'quantity': 'This field is required'})
 
     uuid_list = item_uuid.replace(' ', '').split(',')
+    uuid_list = [] if uuid_list == [''] else uuid_list
     quantity_list = quantity.replace(' ', '').split(',')
+    quantity_list = [] if quantity_list == [''] else quantity_list
     if len(uuid_list) != len(quantity_list):
         raise exceptions.ParseError(
             {
                 'quantity':
-                    'The length of quantity must be the same as item_uuid'
+                    'The number of items must match the number of quantities'
             }
         )
     user_obj = request_header_to_object(CustomUser, request)
@@ -52,6 +50,8 @@ def edit_or_create_order(request):
         raise exceptions.ParseError({'item_uuid': 'Invalid item_uuid'})
 
     if create:
+        if (name := request.data.get('name', None)) is None:
+            raise exceptions.ParseError({'name': 'This field is required'})
         new_order = Order.objects.create(
             user=user_obj,
             name=name,
@@ -65,6 +65,10 @@ def edit_or_create_order(request):
     else:  # Edit order
         if (order_obj := get_object_or_None(Order, uuid=uuid)) is None:
             raise exceptions.ParseError({'uuid': 'Invalid uuid'})
+        if (name := request.data.get('name', None)):
+            order_obj.name = name
+            order_obj.save()
+
         for i, q in zip(item_obj, quantity_list):
             q = int(q)
             if orderItem := get_object_or_None(
@@ -112,13 +116,13 @@ def get_orders(request):
     user_obj = request_header_to_object(CustomUser, request)
     order_queryset = Order.objects.filter(user=user_obj).annotate(
         total_price=models.Sum(
-            models.F('order_item_set__item__price') * models.F('order_item_set__quantity'),
+            models.F('order_item_set__item__price') *
+            models.F('order_item_set__quantity'),
             output_field=models.FloatField()
         )
     ).annotate(
-        image=models.Min('order_item_set__item__image',
-            output_field=models.ImageField()
-        )
+        image=models.
+        Min('order_item_set__item__image', output_field=models.ImageField())
     )
 
     return Response(
@@ -165,7 +169,7 @@ def view_order(request):
 def delete_order(request):
     if (uuid := request.data.get('uuid', None)) is None:
         raise exceptions.ParseError({'uuid': 'This field is required'})
-    if order := get_object_or_None(Order, uuid=uuid):
+    if (order := get_object_or_None(Order, uuid=uuid)) is not None:
         order.delete()
     else:
         raise exceptions.ParseError({'uuid': 'Invalid uuid'})
