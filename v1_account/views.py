@@ -8,11 +8,19 @@ from rest_framework.decorators import (api_view, permission_classes)
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from mainframe.serializers import EnhancedModelSerializer
-from mainframe.views import create_object
+from mainframe.serializers import (
+    EnhancedModelSerializer, CustomUserSerializer
+)
+from mainframe.views import (create_object, get_all_object)
 from mainframe.utils import request_header_to_object
 
 CustomUser = get_user_model()
+
+
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def get_all(_):
+    return get_all_object(CustomUser, CustomUserSerializer)
 
 
 class UserSelfSerializer(EnhancedModelSerializer):

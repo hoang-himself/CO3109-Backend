@@ -1,10 +1,12 @@
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import (APIClient, APITestCase)
 
-from mainframe.models import (CustomUser, Product)
+from mainframe.models import Product
 
+CustomUser = get_user_model()
 NUM_PRODUCT = 10
 
 
@@ -52,7 +54,7 @@ class ProductTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_filter(self):
-        url = reverse('v1_product:filter') +'?fromprice=45&toprice=50'
+        url = reverse('v1_product:filter') + '?fromprice=45&toprice=50'
         client = APIClient()
         response = client.get(url, **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
