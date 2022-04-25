@@ -57,6 +57,18 @@ Authorization: {{authHeader}}
     "quantity": "269"
 }
 
+### Rename order
+PUT {{branch}}/edit_order
+Content-Type: {{contentType}}
+Authorization: {{authHeader}}
+
+{
+    "name": "Renamed",
+    "uuid": "761262f5-6deb-5aba-9599-01c67cf84d56",
+    "item_uuid": "",
+    "quantity": ""
+}
+
 ### Delete item in order
 PUT {{branch}}/edit_order
 Content-Type: {{contentType}}
