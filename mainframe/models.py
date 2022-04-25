@@ -70,22 +70,16 @@ class CustomUser(AbstractUser):
 class Order(TemplateModel):
     name = models.TextField()
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    machine = models.ForeignKey(
-        Machine, null=True, blank=True, on_delete=models.CASCADE
-    )
 
     class Meta:
         verbose_name = 'order'
         verbose_name_plural = 'orders'
-        # indexes = [
-        #     models.Index(fields=[
-        #         'machine',
-        #     ]),
-        # ]
 
 
 class OrderItem(TemplateModel):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    order = models.ForeignKey(
+        Order, related_name='order_item_set', on_delete=models.CASCADE
+    )
     item = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
 
@@ -97,6 +91,15 @@ class OrderItem(TemplateModel):
                 fields=['item', 'order'], name='order_item'
             )
         ]
+
+
+class OrderQueue(TemplateModel):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'order queue'
+        verbose_name_plural = 'order queues'
 
 
 class ItemHistory(TemplateModel):

@@ -3,7 +3,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group
 
 from .utils import validate_uuid4
-from .models import (Machine, Order, Product, CustomUser)
+from .models import (Machine, Order, Product, CustomUser, ItemHistory)
 
 # For custom classes
 from collections import OrderedDict
@@ -337,4 +337,10 @@ class MachineSerializer(EnhancedModelSerializer):
 class ProductSerializer(EnhancedModelSerializer):
     class Meta:
         model = Product
+        exclude = ('id', )
+
+
+class ItemHistorySerializer(EnhancedModelSerializer):
+    class Meta:
+        model = ItemHistory
         exclude = ('id', )
