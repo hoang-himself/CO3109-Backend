@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     'v1_account',
     'v1_machine',
     'v1_product',
-    'v1_order'
+    'v1_order',
+    'v1_item_history'
 ]
 
 MIDDLEWARE = [
@@ -160,6 +161,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 # REST policies
 
 REST_FRAMEWORK = {
+    'DATETIME_FORMAT':
+        '%s000',
     'DEFAULT_AUTHENTICATION_CLASSES':
         ('rest_framework_simplejwt.authentication.JWTAuthentication', ),
     'DEFAULT_PERMISSION_CLASSES':

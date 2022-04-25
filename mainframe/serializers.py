@@ -338,3 +338,9 @@ class ProductSerializer(EnhancedModelSerializer):
     class Meta:
         model = Product
         exclude = ('id', )
+
+
+class ItemHistorySerializer(EnhancedModelSerializer):
+    class Meta:
+        model = ItemHistory
+        exclude = ('id', )
