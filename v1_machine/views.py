@@ -6,6 +6,7 @@ from rest_framework import (exceptions, serializers, permissions, status)
 
 from mainframe.models import (Order, Product, Machine)
 from mainframe.serializers import (EnhancedModelSerializer, MachineSerializer)
+from mainframe.views import get_all_object
 
 
 def request_header_to_machine(request):
@@ -19,6 +20,12 @@ def request_header_to_machine(request):
     if (obj is None):
         raise exceptions.NotFound('Not found')
     return obj
+
+
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def get_all_machine(_):
+    return get_all_object(Machine, MachineSerializer)
 
 
 @api_view(['GET'])
@@ -76,5 +83,4 @@ def clear_order(request):
     if not order_queryset.exists():
         raise exceptions.NotFound({'order_uuid': 'Order not found'})
 
-    # We can add an is_dispensed field here, but I'm lazy
     return Response(status=status.HTTP_200_OK, data=['Ok'])

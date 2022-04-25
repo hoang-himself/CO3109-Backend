@@ -1,19 +1,26 @@
 from django.contrib.auth import get_user_model
 
-from rest_framework.decorators import api_view
+from rest_framework import (exceptions, permissions, status)
+from rest_framework.decorators import (api_view, permission_classes)
 from rest_framework.response import Response
-from rest_framework import (exceptions, serializers, status)
 
 from uuid import uuid4
 
 from mainframe.models import (Machine, Order, Product)
-from mainframe.serializers import EnhancedModelSerializer
+from mainframe.serializers import (EnhancedModelSerializer, OrderSerializer)
 from mainframe.utils import request_header_to_object
+from mainframe.views import get_all_object
 
 CustomUser = get_user_model()
 
 
-class ProductField(serializers.ModelSerializer):
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def get_all_order(_):
+    return get_all_object(Order, OrderSerializer)
+
+
+class ProductField(EnhancedModelSerializer):
     class Meta:
         model = Product
         fields = ('uuid', 'image', 'name', 'price')
@@ -131,7 +138,7 @@ def delete_order(request):
     return Response(status=status.HTTP_200_OK, data=['Deleted'])
 
 
-class MinimalProductField(serializers.ModelSerializer):
+class MinimalProductField(EnhancedModelSerializer):
     class Meta:
         model = Product
         fields = ('uuid', 'price')

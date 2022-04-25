@@ -19,7 +19,7 @@ class ImplicitProduct(EnhancedModelSerializer):
 
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
-def get_all(_):
+def get_all_product(_):
     return get_all_object(Product, ImplicitProduct)
 
 
