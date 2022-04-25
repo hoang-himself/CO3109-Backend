@@ -1,6 +1,6 @@
 from annoying.functions import get_object_or_None
 from django.contrib.auth import get_user_model
-from django.db.models import Sum, FloatField, F
+from django.db.models import Sum, FloatField, F, Min
 
 from rest_framework import (exceptions, permissions, status)
 from rest_framework.decorators import (api_view, permission_classes)
@@ -22,7 +22,6 @@ def get_all(_):
 
 
 @api_view(['PUT'])
-# TODO input: order_uuid, item_uuid[], quantity[]
 def edit_or_create_order(request):
     missing_field = {}
     uuid = request.data.get('uuid', None)
@@ -47,7 +46,7 @@ def edit_or_create_order(request):
         )
     user_obj = request_header_to_object(CustomUser, request)
 
-    ###
+    ### New order
     item_obj = [get_object_or_None(Product, uuid=i) for i in uuid_list]
     if (any(i is None for i in item_obj)):
         raise exceptions.ParseError({'item_uuid': 'Invalid item_uuid'})
@@ -63,7 +62,7 @@ def edit_or_create_order(request):
                 for i, q in zip(item_obj, quantity_list)
             ]
         )
-    else:
+    else:  # Edit order
         if (order_obj := get_object_or_None(Order, uuid=uuid)) is None:
             raise exceptions.ParseError({'uuid': 'Invalid uuid'})
         for i, q in zip(item_obj, quantity_list):
@@ -71,9 +70,9 @@ def edit_or_create_order(request):
             if orderItem := get_object_or_None(
                 OrderItem, order=order_obj, item=i
             ):
-                if q < 1:
+                if q < 1:  # Delete item
                     orderItem.delete()
-                else:
+                else:  # Set quantity
                     orderItem.quantity = q
                     orderItem.save()
             else:
@@ -89,17 +88,18 @@ def edit_or_create_order(request):
     return Response(status=status.HTTP_200_OK, data=['Ok'])
 
 
-class TotalPrice(RelatedField):
+class SimpleRelatedField(RelatedField):
     def to_representation(self, value):
         return value
 
 
 class ImplicitOrder(EnhancedModelSerializer):
-    total_price = TotalPrice(read_only=True, )
+    total_price = SimpleRelatedField(read_only=True)
+    image = SimpleRelatedField(read_only=True)
 
     class Meta:
         model = Order
-        fields = ('uuid', 'name', 'total_price')
+        fields = ('uuid', 'name', 'total_price', 'image')
 
 
 @api_view(['GET'])
@@ -107,6 +107,11 @@ def get_orders(request):
     user_obj = request_header_to_object(CustomUser, request)
     order_queryset = Order.objects.filter(user=user_obj).annotate(
         total_price=Sum(
+            F('order_item_set__item__price') * F('order_item_set__quantity'),
+            output_field=FloatField()
+        )
+    ).annotate(
+        image=Sum(
             F('order_item_set__item__price') * F('order_item_set__quantity'),
             output_field=FloatField()
         )
@@ -166,7 +171,7 @@ def delete_order(request):
 class ProductShort(EnhancedModelSerializer):
     class Meta:
         model = Product
-        fields = ('price',)
+        fields = ('price', )
 
 
 class OrderItemShort(EnhancedModelSerializer):
@@ -182,7 +187,8 @@ class OrderShort(EnhancedModelSerializer):
 
     class Meta:
         model = Order
-        fields = ('order_item_set',)
+        fields = ('order_item_set', )
+
 
 @api_view(['PUT'])
 def checkout_order(request):
