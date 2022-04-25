@@ -1,4 +1,3 @@
-
 INSERT INTO "mainframe_machine"("uuid", "name")
 VALUES (
     'd89647bf-ebdb-53c5-ae26-99d5256439c5',
@@ -117,30 +116,10 @@ VALUES (
     25,
     'factory coach indeed greatly past however evidence pitch slowly chapter off evening cannot wheat memory kill gas general arm health brother themselves environment catch'
   );
-INSERT INTO "mainframe_order"(
-    "uuid",
-    "quantity",
-    "is_paid",
-    "order_uuid",
-    "machine_id",
-    "item_id",
-    "user_id"
-  )
+INSERT INTO "mainframe_order"("uuid", "name", "user_id")
 VALUES (
     '761262f5-6deb-5aba-9599-01c67cf84d56',
-    1,
-    False,
-    '4ad6ece6-8e17-59ac-b140-a7afb9b77fbd',
-    (
-      SELECT id
-      FROM "mainframe_machine"
-      WHERE "uuid" = 'd89647bf-ebdb-53c5-ae26-99d5256439c5'
-    ),
-    (
-      SELECT id
-      FROM "mainframe_product"
-      WHERE name = 'Dasani'
-    ),
+    'My order 1',
     (
       SELECT id
       FROM "mainframe_customuser"
@@ -149,19 +128,7 @@ VALUES (
   ),
   (
     '50807864-db73-548e-b703-6a229d2f565f',
-    1,
-    False,
-    'de6f909e-78c7-5be4-8e88-29aa60c4320a',
-    (
-      SELECT id
-      FROM "mainframe_machine"
-      WHERE "uuid" = 'd89647bf-ebdb-53c5-ae26-99d5256439c5'
-    ),
-    (
-      SELECT id
-      FROM "mainframe_product"
-      WHERE name = 'Black Coffee'
-    ),
+    'Not your order',
     (
       SELECT id
       FROM "mainframe_customuser"
@@ -170,19 +137,7 @@ VALUES (
   ),
   (
     '616b29d4-37b6-599a-b870-9c9be185b5a2',
-    2,
-    False,
-    '4ad6ece6-8e17-59ac-b140-a7afb9b77fbd',
-    (
-      SELECT id
-      FROM "mainframe_machine"
-      WHERE "uuid" = 'd89647bf-ebdb-53c5-ae26-99d5256439c5'
-    ),
-    (
-      SELECT id
-      FROM "mainframe_product"
-      WHERE name = 'Sting'
-    ),
+    'Unused order 69',
     (
       SELECT id
       FROM "mainframe_customuser"
@@ -191,22 +146,237 @@ VALUES (
   ),
   (
     '5d4b141d-ee40-54b1-89f8-203dbfa7b2d9',
-    1,
-    False,
-    'de6f909e-78c7-5be4-8e88-29aa60c4320a',
-    (
-      SELECT id
-      FROM "mainframe_machine"
-      WHERE "uuid" = 'd89647bf-ebdb-53c5-ae26-99d5256439c5'
-    ),
-    (
-      SELECT id
-      FROM "mainframe_product"
-      WHERE name = 'NutriBoost'
-    ),
+    'My future order',
     (
       SELECT id
       FROM "mainframe_customuser"
       WHERE email = 'metmir@uwedobi.tr'
     )
+  );
+INSERT INTO "mainframe_orderitem"(
+    "uuid",
+    "order_id",
+    "item_id",
+    "quantity"
+  )
+VALUES (
+    'ef134134-f732-56d0-9dcc-5c38e7449269',
+    (
+      SELECT id
+      FROM "mainframe_order"
+      WHERE "uuid" = '761262f5-6deb-5aba-9599-01c67cf84d56'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_product"
+      WHERE "name" = 'Coca Cola'
+    ),
+    1
+  ),
+  (
+    '0df24184-7272-5f4e-b83a-d2179475dbd6',
+    (
+      SELECT id
+      FROM "mainframe_order"
+      WHERE "uuid" = '761262f5-6deb-5aba-9599-01c67cf84d56'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_product"
+      WHERE "name" = 'Coca Light'
+    ),
+    1
+  ),
+  (
+    '925ef48d-4c1a-5a72-afd3-8a123e11172f',
+    (
+      SELECT id
+      FROM "mainframe_order"
+      WHERE "uuid" = '50807864-db73-548e-b703-6a229d2f565f'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_product"
+      WHERE "name" = 'NutriBoost'
+    ),
+    1
+  ),
+  (
+    'eb2d28f6-4ace-5b7a-ae6b-c81f167ff9e0',
+    (
+      SELECT id
+      FROM "mainframe_order"
+      WHERE "uuid" = '50807864-db73-548e-b703-6a229d2f565f'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_product"
+      WHERE "name" = 'Sting'
+    ),
+    1
+  ),
+  (
+    '681187ba-5871-50f3-8f25-82546af3784a',
+    (
+      SELECT id
+      FROM "mainframe_order"
+      WHERE "uuid" = '616b29d4-37b6-599a-b870-9c9be185b5a2'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_product"
+      WHERE "name" = 'Black Coffee'
+    ),
+    1
+  ),
+  (
+    '970e9007-6c35-5fc9-acc0-f0e6a6765048',
+    (
+      SELECT id
+      FROM "mainframe_order"
+      WHERE "uuid" = '616b29d4-37b6-599a-b870-9c9be185b5a2'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_product"
+      WHERE "name" = 'Dasani'
+    ),
+    1
+  );
+INSERT INTO "mainframe_orderqueue"("uuid", "machine_id", "order_id")
+VALUES (
+    'baaa78dd-dbd4-4a2a-b0bd-7a071178d76c',
+    (
+      SELECT id
+      FROM "mainframe_machine"
+      WHERE "name" = 'Ground floor of A5'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_order"
+      WHERE "uuid" = '761262f5-6deb-5aba-9599-01c67cf84d56'
+    )
+  ),
+  (
+    '8ae9cf49-d8f4-4948-9c1d-a2ad2f26d0e5',
+    (
+      SELECT id
+      FROM "mainframe_machine"
+      WHERE "name" = 'Ground floor of A5'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_order"
+      WHERE "uuid" = '50807864-db73-548e-b703-6a229d2f565f'
+    )
+  ),
+  (
+    '3de91ea0-7581-4fbd-b724-4d3459a90df3',
+    (
+      SELECT id
+      FROM "mainframe_machine"
+      WHERE "name" = 'Ground floor of A5'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_order"
+      WHERE "uuid" = '616b29d4-37b6-599a-b870-9c9be185b5a2'
+    )
+  );
+INSERT INTO "mainframe_itemhistory"(
+    "uuid",
+    "user_id",
+    "item_id",
+    "quantity",
+    "time"
+  )
+VALUES (
+    'b9833be9-f686-5b71-8b68-99ff7badb5e6',
+    (
+      SELECT id
+      FROM "mainframe_customuser"
+      WHERE email = 'hig@emovaw.za'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_product"
+      WHERE "name" = 'Coca Cola'
+    ),
+    1,
+    '2022-04-24 07:58:39.000000+00'
+  ),
+  (
+    '0319746f-54c1-5680-b877-215af1ca9c46',
+    (
+      SELECT id
+      FROM "mainframe_customuser"
+      WHERE email = 'hig@emovaw.za'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_product"
+      WHERE "name" = 'Coca Light'
+    ),
+    1,
+    '2022-04-20 13:26:39.000000+00'
+  ),
+  (
+    'aa38faaa-26d5-5660-b4a2-5ac55e6dbb26',
+    (
+      SELECT id
+      FROM "mainframe_customuser"
+      WHERE email = 'hig@emovaw.za'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_product"
+      WHERE "name" = 'NutriBoost'
+    ),
+    1,
+    '2022-04-16 09:06:20.000000+00'
+  ),
+  (
+    '2e0eba40-0925-5bc1-ac44-97b157e4f11c',
+    (
+      SELECT id
+      FROM "mainframe_customuser"
+      WHERE email = 'hig@emovaw.za'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_product"
+      WHERE "name" = 'Sting'
+    ),
+    1,
+    '2022-04-12 11:29:55.000000+00'
+  ),
+  (
+    '4d043f07-7094-5333-9bbd-ab3bad36bf10',
+    (
+      SELECT id
+      FROM "mainframe_customuser"
+      WHERE email = 'hig@emovaw.za'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_product"
+      WHERE "name" = 'Black Coffee'
+    ),
+    1,
+    '2022-04-08 16:10:01.000000+00'
+  ),
+  (
+    '0680adc1-f38e-5891-86d8-519ff5ad16a6',
+    (
+      SELECT id
+      FROM "mainframe_customuser"
+      WHERE email = 'hig@emovaw.za'
+    ),
+    (
+      SELECT id
+      FROM "mainframe_product"
+      WHERE "name" = 'Dasani'
+    ),
+    1,
+    '2022-04-04 12:10:01.000000+00'
   );
