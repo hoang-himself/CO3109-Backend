@@ -4,7 +4,9 @@ from rest_framework.decorators import (api_view, permission_classes)
 from rest_framework.response import Response
 from rest_framework import (exceptions, permissions, status)
 
-from mainframe.models import (Machine, Order, OrderItem, OrderQueue, Product)
+from mainframe.models import (
+    Machine, ItemHistory, Order, OrderItem, OrderQueue, Product
+)
 from mainframe.serializers import (EnhancedModelSerializer, MachineSerializer)
 from mainframe.views import get_all_object
 
@@ -96,6 +98,15 @@ def complete_order(request):
     if not order_queue_obj:
         raise exceptions.NotFound({'order_uuid': 'Order not found'})
 
-    # TODO Add to item history
+    user_obj = order_queue_obj.order.user
+    item_queryset = order_queue_obj.order.order_item_set.all()
+
+    ItemHistory.objects.bulk_create(
+        [
+            ItemHistory(user=user_obj, item=i.item, quantity=i.quantity)
+            for i in item_queryset
+        ]
+    )
+
     order_queue_obj.delete()
     return Response(status=status.HTTP_200_OK, data=['Ok'])
