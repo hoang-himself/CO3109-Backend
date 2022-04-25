@@ -19,7 +19,7 @@ CustomUser = get_user_model()
 
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
-def get_all_account(_):
+def get_all(_):
     return get_all_object(CustomUser, CustomUserSerializer)
 
 

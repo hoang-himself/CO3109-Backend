@@ -3,6 +3,9 @@
 @authToken=JWT {{signin.response.body.access_token}}
 
 ###
+GET {{branch}}/all
+
+###
 POST {{branch}}/signup
 Content-Type: {{contentType}}
 
@@ -40,5 +43,5 @@ Content-Type: {{contentType}}
 Authorization: {{authToken}}
 
 {
-  "new_credit": 69000
+  "new_credit": 69420
 }
