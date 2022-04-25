@@ -1,0 +1,26 @@
+@branch={{hostname}}/api/v1/history
+@contentType=application/json
+@authHeader=JWT {{signin.response.body.access_token}}
+
+###
+GET {{branch}}/all
+
+###
+# @name signin
+POST {{hostname}}/api/v1/account/signin
+Content-Type: {{contentType}}
+
+{
+    "email": "hig@emovaw.za",
+    "password": "hig@emovaw.za"
+}
+
+###
+GET {{branch}}/my
+Content-Type: {{contentType}}
+Authorization: {{authHeader}}
+
+###
+GET {{branch}}/my?fromtime=1649014201000&totime=1649094201000
+Content-Type: {{contentType}}
+Authorization: {{authHeader}}
