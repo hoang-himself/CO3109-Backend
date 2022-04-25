@@ -1,10 +1,12 @@
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth import get_user_model
 from django.urls import reverse
-from rest_framework import status
 from rest_framework.test import (APIClient, APITestCase)
+from rest_framework import status
 
-from mainframe.models import (CustomUser, Order, Machine, Product)
+from mainframe.models import (Machine, Product, Order)
 
+CustomUser = get_user_model()
 NUM_MACHINE = 10
 
 
@@ -19,7 +21,12 @@ class OrderTests(APITestCase):
             last_name='User',
             phone=f'0969696969',
         )
-        item = Product.objects.create(
+        Order.objects.create(
+            uuid='a79da10c-8897-4f10-9107-848df79a22b5',
+            name='',
+            user=user
+        )
+        Product.objects.create(
             uuid='3964ff86-161f-4bcf-a211-0f2dd5f91812',
             image='',
             name=f'Sample product',
@@ -27,16 +34,9 @@ class OrderTests(APITestCase):
             unit='335mL',
             desc=''
         )
-        machine = Machine.objects.create(
-            uuid='7ba89104-9712-4654-b1fd-13afaa182c2b',
+        Machine.objects.create(
+            uuid='d89647bf-ebdb-53c5-ae26-99d5256439c5',
             name='Ground floor of A5'
-        )
-        Order.objects.create(
-            user=user,
-            item=item,
-            machine=machine,
-            order_uuid='fda9fd9e-810f-57ea-bcf5-8799583c74bd',
-            quantity=4
         )
         url = reverse('v1_account:sign_in')
         client = APIClient()
@@ -55,7 +55,7 @@ class OrderTests(APITestCase):
     def test_view_order(self):
         url = reverse(
             'v1_order:view'
-        ) + '?order_uuid=fda9fd9e-810f-57ea-bcf5-8799583c74bd'
+        ) + '?uuid=a79da10c-8897-4f10-9107-848df79a22b5'
         client = APIClient()
         response = client.get(url, **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -64,38 +64,39 @@ class OrderTests(APITestCase):
         url = reverse('v1_order:edit')
         client = APIClient()
         data = {
+            "name": "huh",
             "item_uuid": "3964ff86-161f-4bcf-a211-0f2dd5f91812",
-            "quantity": 3
-        }
-        response = client.put(url, data, **self.header)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-
-    def test_edit_item_in_order(self):
-        url = reverse('v1_order:edit')
-        client = APIClient()
-        data = {
-            "order_uuid": "fda9fd9e-810f-57ea-bcf5-8799583c74bd",
-            "item_uuid": "3964ff86-161f-4bcf-a211-0f2dd5f91812",
-            "quantity": 69
+            "quantity": "3"
         }
         response = client.put(url, data, **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_delete_item_in_order(self):
-        url = reverse('v1_order:edit')
-        client = APIClient()
-        data = {
-            "order_uuid": "fda9fd9e-810f-57ea-bcf5-8799583c74bd",
-            "item_uuid": "3964ff86-161f-4bcf-a211-0f2dd5f91812",
-            "quantity": 0
-        }
-        response = client.put(url, data, **self.header)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+    # def test_edit_item_in_order(self):
+    #     url = reverse('v1_order:edit')
+    #     client = APIClient()
+    #     data = {
+    #         "uuid": "a79da10c-8897-4f10-9107-848df79a22b5",
+    #         "item_uuid": "3964ff86-161f-4bcf-a211-0f2dd5f91812",
+    #         "quantity": "69"
+    #     }
+    #     response = client.put(url, data, **self.header)
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    # def test_delete_item_in_order(self):
+    #     url = reverse('v1_order:edit')
+    #     client = APIClient()
+    #     data = {
+    #         "uuid": "a79da10c-8897-4f10-9107-848df79a22b5",
+    #         "item_uuid": "3964ff86-161f-4bcf-a211-0f2dd5f91812",
+    #         "quantity": "0"
+    #     }
+    #     response = client.put(url, data, **self.header)
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_delete_order(self):
         url = reverse('v1_order:delete')
         client = APIClient()
-        data = {'order_uuid': 'fda9fd9e-810f-57ea-bcf5-8799583c74bd'}
+        data = {'uuid': 'a79da10c-8897-4f10-9107-848df79a22b5'}
         response = client.delete(url, data, **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -103,8 +104,8 @@ class OrderTests(APITestCase):
         url = reverse('v1_order:checkout')
         client = APIClient()
         data = {
-            'order_uuid': 'fda9fd9e-810f-57ea-bcf5-8799583c74bd',
-            'machine_uuid': '7ba89104-9712-4654-b1fd-13afaa182c2b'
+            'order_uuid': 'a79da10c-8897-4f10-9107-848df79a22b5',
+            'machine_uuid': 'd89647bf-ebdb-53c5-ae26-99d5256439c5'
         }
         response = client.put(url, data, **self.header)
-        self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
