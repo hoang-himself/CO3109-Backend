@@ -1,11 +1,9 @@
 version: "3.8"
 
 volumes:
-  postgres-volume:
+  postgres-data:
+  redis-cache:
 
-networks:
-  postgres-network:
-    driver: bridge
 
 services:
   project:
@@ -23,10 +21,11 @@ services:
       - ../.env
     volumes:
       - ..:/workspace:cached
-    networks:
-      - postgres-network
     command: sleep infinity
     user: vscode
+    depends_on:
+      - postgres
+      - redis
 
   postgres:
     image: postgres:14.2-bullseye
@@ -36,6 +35,14 @@ services:
     env_file:
       - ../.env
     volumes:
-      - postgres-volume:/var/lib/postgresql/data
-    networks:
-      - postgres-network
+      - postgres-data:/var/lib/postgresql/data
+      # - ./dml.sql:/docker-entrypoint-initdb.d/add_data.sql
+
+  redis:
+    image: redis:6.2-bullseye
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+    command: redis-server --save 20 1 --loglevel warning --requirepass lk1x6E4wgDTjMye5EujsPxtbL5Y52VsM
+    volumes:
+      - redis-cache:/data
