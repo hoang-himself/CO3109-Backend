@@ -33,7 +33,7 @@ def get_history(request):
     user_obj = request_header_to_object(CustomUser, request)
     item_queryset = ItemHistory.objects.filter(user=user_obj)
 
-    from_time = datetime.datetime.now() - datetime.timedelta(days=1)
+    from_time = datetime.datetime.now() - datetime.timedelta(weeks=1)
     to_time = datetime.datetime.now()
     for (key, value) in request.GET.items():
         _key = key.lower()
