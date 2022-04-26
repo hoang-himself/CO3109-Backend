@@ -39,12 +39,6 @@ def about_self(request):
     )
 
 
-class MachineShort(EnhancedModelSerializer):
-    class Meta:
-        model = Machine
-        fields = ('uuid', )
-
-
 class ProductShort(EnhancedModelSerializer):
     class Meta:
         model = Product
