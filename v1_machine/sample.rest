@@ -16,6 +16,11 @@ Content-Type: {{contentType}}
 X-MACHINE-UUID: {{machineUUID}}
 
 ###
+GET {{branch}}/next_order
+Content-Type: {{contentType}}
+X-MACHINE-UUID: {{machineUUID}}
+
+###
 POST {{branch}}/complete_order
 Content-Type: {{contentType}}
 

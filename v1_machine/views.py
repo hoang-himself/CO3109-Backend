@@ -88,6 +88,19 @@ def get_order_queue(request):
     )
 
 
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def get_next_order(request):
+    machine_obj = request_header_to_machine(request)
+
+    return Response(
+        status=status.HTTP_200_OK,
+        data=OrderQueueShort(
+            OrderQueue.objects.filter(machine=machine_obj).first()
+        ).data
+    )
+
+
 @api_view(['POST'])
 @permission_classes([permissions.AllowAny])
 def complete_order(request):
