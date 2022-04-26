@@ -14,6 +14,6 @@ COPY . .
 
 USER ${USERNAME}
 
-ENTRYPOINT [ "python", "manage.py" ]
-CMD [ "runserver", "0.0.0.0:3109" ]
+ENTRYPOINT [ "python", "manage.py", "runserver" ]
+CMD [ "0.0.0.0:3109" ]
 EXPOSE 3109
