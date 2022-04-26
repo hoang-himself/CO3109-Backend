@@ -64,7 +64,7 @@ class OrderShort(EnhancedModelSerializer):
 
     class Meta:
         model = Order
-        fields = ('uuid', 'order_item_set')
+        fields = ('order_item_set', )
 
 
 class OrderQueueShort(EnhancedModelSerializer):
