@@ -21,6 +21,6 @@ Content-Type: {{contentType}}
 Authorization: {{authHeader}}
 
 ###
-GET {{branch}}/my?fromtime=1649014201000&totime=1649094201000
+GET {{branch}}/my?fromtime=1649014201&totime=1649094201
 Content-Type: {{contentType}}
 Authorization: {{authHeader}}
