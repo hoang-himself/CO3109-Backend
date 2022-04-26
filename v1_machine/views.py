@@ -109,6 +109,20 @@ def get_next_order(request):
 
 @api_view(['POST'])
 @permission_classes([permissions.AllowAny])
+def invalidate_order(request):
+    if (order_uuid := request.data.get('order_uuid', None)) is None:
+        raise exceptions.ParseError({'order_uuid': 'This field is required'})
+
+    order_queue_obj = get_object_or_None(OrderQueue, uuid=order_uuid)
+    if not order_queue_obj:
+        raise exceptions.NotFound({'order_uuid': 'Order not found'})
+
+    order_queue_obj.delete()
+    return Response(status=status.HTTP_200_OK, data=['Ok'])
+
+
+@api_view(['POST'])
+@permission_classes([permissions.AllowAny])
 def complete_order(request):
     if (order_uuid := request.data.get('order_uuid', None)) is None:
         raise exceptions.ParseError({'order_uuid': 'This field is required'})

@@ -11,17 +11,17 @@ Content-Type: {{contentType}}
 X-MACHINE-UUID: {{machineUUID}}
 
 ###
-GET {{branch}}/order_queue
+GET {{branch}}/queue
 Content-Type: {{contentType}}
 X-MACHINE-UUID: {{machineUUID}}
 
 ###
-GET {{branch}}/next_order
+GET {{branch}}/next
 Content-Type: {{contentType}}
 X-MACHINE-UUID: {{machineUUID}}
 
 ###
-POST {{branch}}/complete_order
+POST {{branch}}/complete
 Content-Type: {{contentType}}
 
 {

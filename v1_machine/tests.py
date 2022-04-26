@@ -23,10 +23,7 @@ class MetaMachineTests(APITestCase):
             uuid='d89647bf-ebdb-53c5-ae26-99d5256439c5',
             name='Ground floor of A5'
         )
-        order = Order.objects.create(
-            name='',
-            user=user
-        )
+        order = Order.objects.create(name='', user=user)
         OrderQueue.objects.create(
             uuid='941b62aa-a193-4ce2-95c4-397ea432f13f',
             order=order,
@@ -45,7 +42,7 @@ class MetaMachineTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_queue(self):
-        url = reverse('v1_machine:order_queue')
+        url = reverse('v1_machine:queue')
         client = APIClient()
         response = client.get(
             url, **{
@@ -56,7 +53,7 @@ class MetaMachineTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_complete_order(self):
-        url = reverse('v1_machine:complete_order')
+        url = reverse('v1_machine:complete')
         client = APIClient()
         data = {'order_uuid': '941b62aa-a193-4ce2-95c4-397ea432f13f'}
         response = client.post(
