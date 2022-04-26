@@ -36,19 +36,3 @@ We are making a dispenser with micro:bit and a lot of shit this time
    ```
 
 3. `Command Palette` -> `Remote-Containers: Reopen in Container`
-
-## Utility functions
-
-### Clear cache and migrations file
-
-```bash
-find . -type f -name "*.py[co]" -delete
-find . -type d -name "__pycache__" -delete
-find . -depth -type d -name ".mypy_cache" -exec rm -r {} +
-find . -depth -type d -name ".pytest_cache" -exec rm -r {} +
-find . -path "*/migrations/*.py" -not -name "__init__.py" -not -path "*/db/*" -delete
-
-python manage.py makemigrations
-python manage.py migrate
-python manage.py collectstatic --no-input
-```
