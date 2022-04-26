@@ -40,9 +40,9 @@ def get_history(request):
         if not value:
             continue
         if _key == 'fromtime':
-            from_time = datetime.datetime.fromtimestamp(int(value) / 1000)
+            from_time = datetime.datetime.fromtimestamp(int(value))
         elif _key == 'totime':
-            to_time = datetime.datetime.fromtimestamp(int(value) / 1000)
+            to_time = datetime.datetime.fromtimestamp(int(value))
 
     return Response(
         status=status.HTTP_200_OK,
