@@ -3,7 +3,7 @@ from rest_framework.decorators import (api_view, permission_classes)
 from rest_framework.response import Response
 from rest_framework import (permissions, status)
 
-from mainframe.models import ItemHistory
+from mainframe.models import (ItemHistory, Product)
 from mainframe.serializers import (
     EnhancedModelSerializer, ItemHistorySerializer
 )
@@ -21,7 +21,15 @@ def get_all(_):
     return get_all_object(ItemHistory, ItemHistorySerializer)
 
 
+class ItemShort(EnhancedModelSerializer):
+    class Meta:
+        model = Product
+        fields = ('price', 'name')
+
+
 class SelfItemHistory(EnhancedModelSerializer):
+    item = ItemShort()
+
     class Meta:
         model = ItemHistory
         fields = ('item', 'quantity', 'time')
