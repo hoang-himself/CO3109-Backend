@@ -16,6 +16,7 @@ Content-Type: {{contentType}}
 X-MACHINE-UUID: {{machineUUID}}
 
 ###
+# @name next
 GET {{branch}}/next
 Content-Type: {{contentType}}
 X-MACHINE-UUID: {{machineUUID}}
@@ -25,5 +26,5 @@ POST {{branch}}/complete
 Content-Type: {{contentType}}
 
 {
-  "order_uuid": "baaa78dd-dbd4-4a2a-b0bd-7a071178d76c"
+  "order_uuid": "{{next.response.body.uuid}}"
 }
