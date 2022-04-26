@@ -79,12 +79,15 @@ class OrderQueueShort(EnhancedModelSerializer):
 @permission_classes([permissions.AllowAny])
 def get_order_queue(request):
     machine_obj = request_header_to_machine(request)
+    order_queue_queryset = OrderQueue.objects.filter(machine=machine_obj)
+    if not order_queue_queryset.exists():
+        ret_stat = status.HTTP_204_NO_CONTENT
+    else:
+        ret_stat = status.HTTP_200_OK
 
     return Response(
-        status=status.HTTP_200_OK,
-        data=OrderQueueShort(
-            OrderQueue.objects.filter(machine=machine_obj), many=True
-        ).data
+        status=ret_stat,
+        data=OrderQueueShort(order_queue_queryset, many=True).data
     )
 
 
@@ -92,12 +95,15 @@ def get_order_queue(request):
 @permission_classes([permissions.AllowAny])
 def get_next_order(request):
     machine_obj = request_header_to_machine(request)
+    order_queue_queryset = OrderQueue.objects.filter(machine=machine_obj)
+    if not order_queue_queryset.exists():
+        ret_stat = status.HTTP_204_NO_CONTENT
+    else:
+        ret_stat = status.HTTP_200_OK
 
     return Response(
-        status=status.HTTP_200_OK,
-        data=OrderQueueShort(
-            OrderQueue.objects.filter(machine=machine_obj).first()
-        ).data
+        status=ret_stat,
+        data=OrderQueueShort(order_queue_queryset.first()).data
     )
 
 
