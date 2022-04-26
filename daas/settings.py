@@ -97,6 +97,16 @@ AUTH_USER_MODEL = 'mainframe.CustomUser'
 # No SSL due to no local cert
 DATABASES = {'default': dj_database_url.config(conn_max_age=600)}
 
+CACHES = {
+        "default": {
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": "redis://redis:6379/",
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient"
+            },
+        }
+    }
+
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
