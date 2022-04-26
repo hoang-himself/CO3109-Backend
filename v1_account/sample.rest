@@ -40,7 +40,6 @@ Authorization: {{authToken}}
 ###
 PUT {{branch}}/this_should_be_run_with_cron_but_you_can_call_it_remotely_too
 Content-Type: {{contentType}}
-Authorization: {{authToken}}
 
 {
   "new_credit": 69420

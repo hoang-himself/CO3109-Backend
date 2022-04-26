@@ -185,7 +185,7 @@ VALUES (
       FROM "mainframe_product"
       WHERE "name" = 'Coca Light'
     ),
-    1
+    3
   ),
   (
     '925ef48d-4c1a-5a72-afd3-8a123e11172f',
@@ -199,7 +199,7 @@ VALUES (
       FROM "mainframe_product"
       WHERE "name" = 'NutriBoost'
     ),
-    1
+    4
   ),
   (
     'eb2d28f6-4ace-5b7a-ae6b-c81f167ff9e0',
@@ -213,7 +213,7 @@ VALUES (
       FROM "mainframe_product"
       WHERE "name" = 'Sting'
     ),
-    1
+    2
   ),
   (
     '681187ba-5871-50f3-8f25-82546af3784a',
@@ -227,7 +227,7 @@ VALUES (
       FROM "mainframe_product"
       WHERE "name" = 'Black Coffee'
     ),
-    1
+    7
   ),
   (
     '970e9007-6c35-5fc9-acc0-f0e6a6765048',
@@ -241,7 +241,7 @@ VALUES (
       FROM "mainframe_product"
       WHERE "name" = 'Dasani'
     ),
-    1
+    6
   );
 INSERT INTO "mainframe_orderqueue"("uuid", "machine_id", "order_id")
 VALUES (
