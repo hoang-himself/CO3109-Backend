@@ -302,7 +302,7 @@ VALUES (
       FROM "mainframe_product"
       WHERE "name" = 'Coca Cola'
     ),
-    1,
+    12,
     '2022-04-24 07:58:39.000000+00'
   ),
   (
@@ -317,7 +317,7 @@ VALUES (
       FROM "mainframe_product"
       WHERE "name" = 'Coca Light'
     ),
-    1,
+    2,
     '2022-04-20 13:26:39.000000+00'
   ),
   (
@@ -332,7 +332,7 @@ VALUES (
       FROM "mainframe_product"
       WHERE "name" = 'NutriBoost'
     ),
-    1,
+    9,
     '2022-04-16 09:06:20.000000+00'
   ),
   (
@@ -347,7 +347,7 @@ VALUES (
       FROM "mainframe_product"
       WHERE "name" = 'Sting'
     ),
-    1,
+    6,
     '2022-04-12 11:29:55.000000+00'
   ),
   (
@@ -362,7 +362,7 @@ VALUES (
       FROM "mainframe_product"
       WHERE "name" = 'Black Coffee'
     ),
-    1,
+    10,
     '2022-04-08 16:10:01.000000+00'
   ),
   (
@@ -377,6 +377,6 @@ VALUES (
       FROM "mainframe_product"
       WHERE "name" = 'Dasani'
     ),
-    1,
+    5,
     '2022-04-04 12:10:01.000000+00'
   );
