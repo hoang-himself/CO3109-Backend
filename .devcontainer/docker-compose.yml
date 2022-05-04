@@ -2,11 +2,16 @@ version: "3.8"
 
 volumes:
   postgres-data:
-  redis-cache:
+  pgadmin-data:
+  redis-data:
+  redisinsight-data:
 
 
 services:
   project:
+    depends_on:
+      - postgres
+      - redis
     build:
       context: .
       dockerfile: Dockerfile
@@ -18,14 +23,11 @@ services:
     ports:
       - 3109:3109
     env_file:
-      - ../.env
+      - ./.env
     volumes:
       - ..:/workspace:cached
     command: sleep infinity
     user: vscode
-    depends_on:
-      - postgres
-      - redis
 
   postgres:
     image: postgres:14.2-bullseye
@@ -33,7 +35,7 @@ services:
     ports:
       - 5432:5432
     env_file:
-      - ../.env
+      - ./.env
     volumes:
       - postgres-data:/var/lib/postgresql/data
       # - ./dml.sql:/docker-entrypoint-initdb.d/add_data.sql
@@ -43,6 +45,31 @@ services:
     restart: unless-stopped
     ports:
       - 6379:6379
-    command: redis-server --save 20 1 --loglevel warning --requirepass lk1x6E4wgDTjMye5EujsPxtbL5Y52VsM
+    command: redis-server --save 20 1 --loglevel warning
+    # command: redis-server --save 20 1 --loglevel warning --requirepass lk1x6E4wgDTjMye5EujsPxtbL5Y52VsM
     volumes:
-      - redis-cache:/data
+      - redis-data:/data
+
+  pgadmin:
+    depends_on:
+      - postgres
+    image: dpage/pgadmin4:latest
+    restart: unless-stopped
+    ports:
+      - 8080:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=owner@localhost.com
+      - PGADMIN_DEFAULT_PASSWORD=whatislove
+    volumes:
+      - pgadmin-data:/root/.pgadmin
+      # - /data/pgadmin:/root/.pgadmin
+
+  redisinsight:
+    depends_on:
+      - redis
+    image: redislabs/redisinsight:latest
+    restart: unless-stopped
+    ports:
+      - 8001:8001
+    volumes:
+      - redisinsight-data:/db
