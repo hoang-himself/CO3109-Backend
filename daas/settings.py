@@ -108,7 +108,7 @@ CACHES = {
         }
 }
 
-CACHE_TTL = 15  # minute
+CACHE_TTL = 60 * 15 # second
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
