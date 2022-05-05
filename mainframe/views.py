@@ -1,4 +1,7 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_headers
 
 from rest_framework import (exceptions, status)
 from rest_framework.decorators import (api_view, permission_classes)
@@ -91,5 +94,6 @@ def delete_object(model, **kwargs):
 
 @api_view(['POST', 'GET', 'PATCH', 'DELETE'])
 @permission_classes([AllowAny])
+@cache_page(settings.CACHE_TTL)
 def ping(_):
     return Response(data=['pong'], status=status.HTTP_200_OK)
