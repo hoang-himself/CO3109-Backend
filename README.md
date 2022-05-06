@@ -17,7 +17,7 @@ We are making a dispenser with micro:bit and a lot of shit this time
    # from django.core.management.utils import get_random_secret_key
    # get_random_secret_key()
    SECRET_KEY='<fill your seed here>'
-   JWT_KEY='<fill your seed here>'
+   JWT_KEY='<fill your seed here asd asd >'
 
    # Postgres
    # If you change any of these POSTGRES parameters, you have to update DATABASE_URL too
