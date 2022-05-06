@@ -1,5 +1,9 @@
 from annoying.functions import get_object_or_None
 
+from django.conf import settings
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_headers
+
 from rest_framework.decorators import (api_view, permission_classes)
 from rest_framework.response import Response
 from rest_framework import (exceptions, permissions, status)
@@ -71,6 +75,8 @@ class OrderQueueShort(EnhancedModelSerializer):
 
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
+@cache_page(settings.CACHE_TTL)
+@vary_on_headers('X-MACHINE-UUID')
 def get_order_queue(request):
     machine_obj = request_header_to_machine(request)
     order_queue_queryset = OrderQueue.objects.filter(machine=machine_obj)
