@@ -1,6 +1,6 @@
 # Deadline as a Service
 
-[![CI](https://github.com/Smithienious/CO3109-Backend/actions/workflows/CI.yml/badge.svg)](https://github.com/Smithienious/CO3109-Backend/actions/workflows/CI.yml)
+[![CI](https://github.com/hoang-himself/CO3109-Backend/actions/workflows/CI.yml/badge.svg)](https://github.com/hoang-himself/CO3109-Backend/actions/workflows/CI.yml)
 
 We are making a dispenser with micro:bit and a lot of shit this time
 
