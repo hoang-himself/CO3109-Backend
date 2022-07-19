@@ -1,8 +1,7 @@
 {
   "recommendations": [
     "eamodio.gitlens",
-    "helixquar.randomeverything",
-    "kejun.devtoys"
+    "helixquar.randomeverything"
   ],
   "unwantedRecommendations": [
     "ms-azuretools.vscode-docker"
