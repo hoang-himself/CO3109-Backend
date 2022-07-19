@@ -3,6 +3,11 @@
   "dockerComposeFile": "docker-compose.yml",
   "service": "project",
   "workspaceFolder": "/workspace",
+  "hostRequirements": {
+    "cpus": 4,
+    "memory": "8gb",
+    "storage": "32gb"
+  },
   // Set *default* container specific settings.json values on container create.
   "settings": {
     "editor.bracketPairColorization.enabled": true,
